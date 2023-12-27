@@ -1,5 +1,5 @@
-// Generated from com/SmallConcurrency/SmallConcurrencyGrammar.g4 by ANTLR 4.13.1
-package com.SmallConcurrency;
+// Generated from tmp/SmallConcurrencyGrammar.g4 by ANTLR 4.13.1
+package tmp;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;

@@ -1,7 +1,17 @@
 gVar x;
 gVar y;
 
+
 function main () {
-    var h;
-    h=2 ;
+    var z;
+    x = 1;
+    thread {
+        lock y;
+        y = 2;
+        
+    }
+    z= 3;
+    thread {
+        y = 4;
+    }
 }

@@ -56,7 +56,11 @@ VAR : 'var' ;
 
 GLOBAL_VAR : 'gVar' ;
 
-TASK : 'task' ;
+THREAD : 'thread' ;
+
+LOCK : 'lock' ;
+
+UNLOCK : 'unlock' ;
 
 ID: LETTER (DIGIT | LETTER)*;
 
