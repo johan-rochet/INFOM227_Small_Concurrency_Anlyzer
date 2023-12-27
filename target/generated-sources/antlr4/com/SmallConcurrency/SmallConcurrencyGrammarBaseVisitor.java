@@ -1,4 +1,5 @@
-// Generated from SmallConcurrencyGrammar.g4 by ANTLR 4.6
+// Generated from com/SmallConcurrency/SmallConcurrencyGrammar.g4 by ANTLR 4.13.1
+package com.SmallConcurrency;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
@@ -9,6 +10,7 @@ import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
  * @param <T> The return type of the visit operation. Use {@link Void} for
  * operations with no return type.
  */
+@SuppressWarnings("CheckReturnValue")
 public class SmallConcurrencyGrammarBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements SmallConcurrencyGrammarVisitor<T> {
 	/**
 	 * {@inheritDoc}
@@ -150,4 +152,18 @@ public class SmallConcurrencyGrammarBaseVisitor<T> extends AbstractParseTreeVisi
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitFuncDef(SmallConcurrencyGrammarParser.FuncDefContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitVarDecl(SmallConcurrencyGrammarParser.VarDeclContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitGlobalVarDecl(SmallConcurrencyGrammarParser.GlobalVarDeclContext ctx) { return visitChildren(ctx); }
 }

@@ -2,12 +2,10 @@ grammar SmallConcurrencyGrammar ;
 import SmallConcurrencySyntax ;
 
 
-root : (funcDef)* EOF ;
-
+root : (globalVarDecl SEMICOLON)* (funcDef)+ EOF ;
 
 op : PLUS | MINUS | MULTIPLY | SLASH | EQUAL | GREATER | GREATER_EQUAL | LESS | LESS_EQUAL | DIFFERENT;
 rop : AND | OR;
-
 
 nOprnd : ID | NUM ;
 bOprnd : TRUE | FALSE | ID ;
@@ -30,7 +28,7 @@ funcCall : ID  LPAR (exprList+) RPAR ;
 
 assignStatement : ID ASSIGN expr | ID ASSIGN funcCall ;
 
-statement : (assignStatement |returnStatement) SEMICOLON  | ifStatement | whileStatement ;
+statement : (assignStatement |returnStatement| varDecl) SEMICOLON  | ifStatement | whileStatement ;
 
 ifStatement : IF LPAR expr RPAR (statement | sequence) ELSE (statement | sequence) ;
 
@@ -42,9 +40,7 @@ paramList : ID | ID COMMA paramList ;
 
 funcDef : FUNCTION ID LPAR (paramList?) RPAR sequence ;
 
+varDecl : VAR ID;
 
-
-
-
-
+globalVarDecl : GLOBAL_VAR ID;
 

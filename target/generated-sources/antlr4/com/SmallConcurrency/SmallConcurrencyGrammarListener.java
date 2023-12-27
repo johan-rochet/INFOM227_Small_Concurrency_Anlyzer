@@ -1,4 +1,5 @@
-// Generated from SmallConcurrencyGrammar.g4 by ANTLR 4.6
+// Generated from com/SmallConcurrency/SmallConcurrencyGrammar.g4 by ANTLR 4.13.1
+package com.SmallConcurrency;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -206,4 +207,24 @@ public interface SmallConcurrencyGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFuncDef(SmallConcurrencyGrammarParser.FuncDefContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SmallConcurrencyGrammarParser#varDecl}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarDecl(SmallConcurrencyGrammarParser.VarDeclContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SmallConcurrencyGrammarParser#varDecl}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarDecl(SmallConcurrencyGrammarParser.VarDeclContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SmallConcurrencyGrammarParser#globalVarDecl}.
+	 * @param ctx the parse tree
+	 */
+	void enterGlobalVarDecl(SmallConcurrencyGrammarParser.GlobalVarDeclContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SmallConcurrencyGrammarParser#globalVarDecl}.
+	 * @param ctx the parse tree
+	 */
+	void exitGlobalVarDecl(SmallConcurrencyGrammarParser.GlobalVarDeclContext ctx);
 }

@@ -1,4 +1,5 @@
-// Generated from SmallConcurrencyGrammar.g4 by ANTLR 4.6
+// Generated from com/SmallConcurrency/SmallConcurrencyGrammar.g4 by ANTLR 4.13.1
+package com.SmallConcurrency;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -9,6 +10,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
  * which can be extended to create a listener which only needs to handle a subset
  * of the available methods.
  */
+@SuppressWarnings("CheckReturnValue")
 public class SmallConcurrencyGrammarBaseListener implements SmallConcurrencyGrammarListener {
 	/**
 	 * {@inheritDoc}
@@ -250,6 +252,30 @@ public class SmallConcurrencyGrammarBaseListener implements SmallConcurrencyGram
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFuncDef(SmallConcurrencyGrammarParser.FuncDefContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVarDecl(SmallConcurrencyGrammarParser.VarDeclContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVarDecl(SmallConcurrencyGrammarParser.VarDeclContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterGlobalVarDecl(SmallConcurrencyGrammarParser.GlobalVarDeclContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGlobalVarDecl(SmallConcurrencyGrammarParser.GlobalVarDeclContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

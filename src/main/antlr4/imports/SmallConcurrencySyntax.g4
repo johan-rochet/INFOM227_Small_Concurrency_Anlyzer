@@ -52,10 +52,20 @@ RETURN : 'return' ;
 
 FUNCTION : 'function' ;
 
+VAR : 'var' ;
+
+GLOBAL_VAR : 'gVar' ;
+
+TASK : 'task' ;
+
 ID: LETTER (DIGIT | LETTER)*;
 
 NUM : DIGIT+;
 
+fragment DIGIT: '0'..'9';
 
-fragment LETTER : 'a'..'z' | 'A'..'Z';
-fragment DIGIT : '0'..'9';
+fragment LETTER: 'A'..'Z' | 'a'..'z' ;
+
+NEWLINE: '\r'?'\n'  -> skip ;
+
+WS: [ \t]+ -> skip ;

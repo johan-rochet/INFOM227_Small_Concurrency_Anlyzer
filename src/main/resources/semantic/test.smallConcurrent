@@ -1,0 +1,7 @@
+gVar x;
+gVar y;
+
+function main () {
+    var h;
+    h=2 ;
+}
