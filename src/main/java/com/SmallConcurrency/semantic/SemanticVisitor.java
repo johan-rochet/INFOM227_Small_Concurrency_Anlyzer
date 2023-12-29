@@ -1,5 +1,7 @@
-package com.SmallConcurrency;
+package com.SmallConcurrency.semantic;
 
+import com.SmallConcurrency.SmallConcurrencyGrammarBaseVisitor;
+import com.SmallConcurrency.SmallConcurrencyGrammarParser;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -7,7 +9,8 @@ import org.antlr.v4.runtime.tree.RuleNode;
 
 import java.util.*;
 
-import static com.SmallConcurrency.Utils.getParserRuleContextFromParseTree;
+import static com.SmallConcurrency.main.Utils.getIfAndElseBlock;
+import static com.SmallConcurrency.main.Utils.getParserRuleContextFromParseTree;
 
 
 public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> {
@@ -248,23 +251,6 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
 
     @Override
     public Object visitBOprnd(SmallConcurrencyGrammarParser.BOprndContext ctx) {
-        if (ctx.ID() != null){
-            String var_name = ctx.ID().getText();
-
-            if (currentThread.getLastLocalScope().containsKey(var_name)) {
-                return currentThread.getLastLocalScope().get(var_name);
-            }
-            else if ( globalScope.containsKey(var_name) ) {
-                if (all_locked_variables.contains(var_name) && !currentThread.getLocked_variables().contains(var_name)) {
-                    return KO;
-                }
-                return globalScope.get(var_name);
-            }
-            else {
-                System.out.println("Error: variable " + var_name + " not declared");
-                System.exit(1);
-            }
-        }
         if (ctx.TRUE() != null) {
             return true;
         }
@@ -505,23 +491,10 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
 
 
         else {
-            ParseTree block1 = null;
-            ParseTree block2 = null;
-            for (ParseTree child : ctx.children) {
+            List<ParseTree> children = getIfAndElseBlock(ctx.children);
+            ParseTree block1 = children.get(0);
+            ParseTree block2 = children.get(1);
 
-                if (child instanceof SmallConcurrencyGrammarParser.SequenceContext && block1 == null) {
-                    block1 = child;
-                }
-                else if (child instanceof SmallConcurrencyGrammarParser.SequenceContext && block1 != null) {
-                    block2 = child;
-                }
-                else if (child instanceof SmallConcurrencyGrammarParser.StatementContext && block1 == null) {
-                    block1 = child;
-                }
-                else if (child instanceof SmallConcurrencyGrammarParser.StatementContext && block1 != null) {
-                    block2 = child;
-                }
-            }
 
             List<ParserRuleContext> instructions = new ArrayList<>() ;
 

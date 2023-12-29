@@ -3,15 +3,29 @@ gVar y;
 
 
 function main () {
-    var z;
-    x = 1;
+    if (x==2){
+        thread {
+                y = 4;
+        }
+    }
+    else {
+        thread {
+                y = 4;
+            }
+    }
     thread {
         lock y;
         y = 2;
         unlock y;
     }
-    z= 3;
+
     thread {
         y = 4;
     }
+}
+function f(x1, x2) {
+    var y;
+    var z;
+    y = x1 + x2;
+    return y;
 }

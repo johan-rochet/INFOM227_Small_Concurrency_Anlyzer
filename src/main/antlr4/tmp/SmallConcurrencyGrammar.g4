@@ -9,7 +9,7 @@ bop :  EQUAL | GREATER | GREATER_EQUAL | LESS | LESS_EQUAL | DIFFERENT;
 rop : AND | OR;
 
 nOprnd : ID | NUM ;
-bOprnd : TRUE | FALSE | ID | nOprnd bop nOprnd ;
+bOprnd : TRUE | FALSE | nOprnd bop nOprnd ;
 
 binOP : nOprnd op nOprnd ;
 

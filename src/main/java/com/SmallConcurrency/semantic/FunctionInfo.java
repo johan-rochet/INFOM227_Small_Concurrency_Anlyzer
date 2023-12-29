@@ -1,6 +1,8 @@
-package com.SmallConcurrency;
+package com.SmallConcurrency.semantic;
 
 
+
+import com.SmallConcurrency.SmallConcurrencyGrammarParser;
 
 import java.util.ArrayList;
 import java.util.List;

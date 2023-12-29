@@ -1,4 +1,4 @@
-package com.SmallConcurrency;
+package com.SmallConcurrency.semantic;
 
 
 import org.antlr.v4.runtime.ParserRuleContext;

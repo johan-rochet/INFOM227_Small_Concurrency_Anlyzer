@@ -2,9 +2,11 @@
 package com.SmallConcurrency.main;
 
 
-import com.SmallConcurrency.SemanticVisitor;
+import com.SmallConcurrency.cfg.CFGVisitor;
+import com.SmallConcurrency.cfg.graph.Block;
+import com.SmallConcurrency.cfg.graph.Function;
+import com.SmallConcurrency.semantic.SemanticVisitor;
 import com.SmallConcurrency.SmallConcurrencyGrammarParser;
-import com.SmallConcurrency.SmallConcurrencyGrammarVisitor;
 import com.SmallConcurrency.SmallConcurrencyGrammarLexer;
 import org.antlr.v4.runtime.*;
 
@@ -55,11 +57,24 @@ public class Main {
 
         tree.accept(visitor);
 
-        System.out.println("\n\n");
-        visitor.printInfo();
-
         System.out.println("Finished analyzing file: " + inputFile.getName());
 
+        System.out.println("The program is semantically correct!");
+
+        System.out.println("Starting cfg generation...");
+
+        CFGVisitor cfgVisitor = new CFGVisitor();
+        tree.accept(cfgVisitor);
+
+        for (Block block : cfgVisitor.getCFGList()) {
+            System.out.println(block.toString());
+        }
+
+        for (Function function : cfgVisitor.getFunctions().values()) {
+            System.out.println(function.toString());
+        }
+
+        System.out.println("Finished cfg generation!");
 
     }
 
