@@ -19,6 +19,10 @@ public class LockVarDecl extends Block{
         this.variable = variable;
     }
 
+    public Variable getVariable() {
+        return variable;
+    }
+
     @Override
     public LockVarDecl cloneBlock() {
 
@@ -30,5 +34,6 @@ public class LockVarDecl extends Block{
         }
         return clone;
     }
+
 
 }

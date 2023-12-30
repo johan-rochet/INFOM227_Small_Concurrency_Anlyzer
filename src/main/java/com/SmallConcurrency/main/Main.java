@@ -5,14 +5,21 @@ package com.SmallConcurrency.main;
 import com.SmallConcurrency.cfg.CFGVisitor;
 import com.SmallConcurrency.cfg.graph.Block;
 import com.SmallConcurrency.cfg.graph.Function;
+import com.SmallConcurrency.cfg.graph.GlobalVarDecl;
 import com.SmallConcurrency.semantic.SemanticVisitor;
 import com.SmallConcurrency.SmallConcurrencyGrammarParser;
 import com.SmallConcurrency.SmallConcurrencyGrammarLexer;
+import com.SmallConcurrency.staticAnalysis.AbstractValues;
+import com.SmallConcurrency.staticAnalysis.StaticAnalysisVisitor;
 import org.antlr.v4.runtime.*;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
@@ -77,6 +84,29 @@ public class Main {
         }
 
         System.out.println("Finished cfg generation!");
+
+
+        List<Map<String, AbstractValues>> globalVarValues = new ArrayList<>() ;
+
+        for (Block block : cfgVisitor.getCFGList()) {
+            StaticAnalysisVisitor staticAnalysisVisitor = null ;
+            if (globalVarValues.isEmpty()) {
+                staticAnalysisVisitor = new StaticAnalysisVisitor();
+            }
+            else {
+                staticAnalysisVisitor = new StaticAnalysisVisitor(globalVarValues.get(globalVarValues.size()-1).keySet());
+            }
+            block.accept(staticAnalysisVisitor);
+            globalVarValues.add(staticAnalysisVisitor.getGlobalVarValues());
+
+        }
+
+        System.out.println("Global variables values :");
+        for (Map<String, AbstractValues> globalVarValue : globalVarValues) {
+
+            System.out.println(globalVarValue);
+        }
+
 
     }
 

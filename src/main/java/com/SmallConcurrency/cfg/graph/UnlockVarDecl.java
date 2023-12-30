@@ -19,6 +19,9 @@ public class UnlockVarDecl extends Block{
         this.variable = variable;
     }
 
+    public Variable getVariable() {
+        return variable;
+    }
     @Override
     public UnlockVarDecl cloneBlock() {
 

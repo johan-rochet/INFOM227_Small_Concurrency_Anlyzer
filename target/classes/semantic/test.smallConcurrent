@@ -1,12 +1,18 @@
 gVar x;
 gVar y;
 
-function x(){
-    return 5;
-}
+function main(){
+    lock x;
+    thread {}
+    if(x == y){
 
-function main () {
-    x= x();
-}
+        y = 1;
+        }
+    else
+    {
+        }
 
+    unlock x;
+
+}
 

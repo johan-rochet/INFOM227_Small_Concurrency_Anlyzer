@@ -1,6 +1,7 @@
 package com.SmallConcurrency.cfg.graph;
 
 import com.SmallConcurrency.cfg.elements.bool.BoolExpr;
+import com.SmallConcurrency.staticAnalysis.StaticAnalysisVisitor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +22,13 @@ public class IfElse extends Block {
         this.endIf = endIf;
     }
 
+    public BoolExpr getCondition() {
+        return condition;
+    }
+
+    public EndIf getEndIf() {
+        return endIf;
+    }
 
     public void setEndIf(EndIf endIf) {
         this.endIf = endIf;
@@ -65,7 +73,5 @@ public class IfElse extends Block {
         }
 
     }
-
-
 
 }

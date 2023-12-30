@@ -25,6 +25,13 @@ public class While extends Block{
         this.endWhile = endWhile;
     }
 
+    public EndWhile getEndWhile() {
+        return endWhile;
+    }
+
+    public BoolExpr getCondition() {
+        return condition;
+    }
     @Override
     public While cloneBlock() {
         While clone = null;

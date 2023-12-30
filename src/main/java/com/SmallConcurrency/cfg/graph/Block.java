@@ -1,5 +1,7 @@
 package com.SmallConcurrency.cfg.graph;
 
+import com.SmallConcurrency.staticAnalysis.StaticAnalysisVisitor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +56,10 @@ public  abstract  class Block {
             children.add(child.cloneBlock());
         }
         return children;
+    }
+
+    public void accept(StaticAnalysisVisitor visitor){
+        visitor.visit(this);
     }
 
 

@@ -25,4 +25,11 @@ public class BoolOp extends BoolValueRepresentation{
         );
     }
 
+    public NumValueRepresentation getLeft() {
+        return left;
+    }
+
+    public NumValueRepresentation getRight() {
+        return right;
+    }
 }

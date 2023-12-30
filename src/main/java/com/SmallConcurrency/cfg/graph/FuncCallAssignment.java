@@ -35,6 +35,10 @@ public class FuncCallAssignment extends Block{
         return clone;
     }
 
+    public Variable getVariable() {
+        return variable;
+    }
+
     @Override
     public String toString() {
         String result = this.getClass() + "\n";

@@ -8,6 +8,14 @@ public class RelOp extends BoolValueRepresentation {
 
     private ROp rop;
 
+    public BoolValueRepresentation getLeft() {
+        return left;
+    }
+
+    public BoolValueRepresentation getRight() {
+        return right;
+    }
+
     public RelOp(BoolValueRepresentation left, BoolValueRepresentation right, ROp rop) {
         this.left = left;
         this.right = right;

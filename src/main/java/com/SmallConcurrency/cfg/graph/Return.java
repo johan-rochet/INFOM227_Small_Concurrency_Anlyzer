@@ -19,6 +19,10 @@ public class Return extends Block{
         this.returnVar = returnVar;
     }
 
+    public ArithmExp getReturnVar() {
+        return returnVar;
+    }
+
 
     public Return cloneBlock(){
         Return clone = null;

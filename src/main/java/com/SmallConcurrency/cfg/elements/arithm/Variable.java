@@ -12,9 +12,15 @@ public class Variable extends   NumValueRepresentation {
         return name;
     }
 
+
     @Override
     public Variable clone() throws CloneNotSupportedException {
         return (Variable) super.clone();
+    }
+
+
+    public Boolean equals(Variable variable) {
+        return this.name.equals(variable.getName());
     }
 
 

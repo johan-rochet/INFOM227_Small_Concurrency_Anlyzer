@@ -6,4 +6,6 @@ public abstract class NumValueRepresentation extends ArithmExp {
     public NumValueRepresentation clone() throws CloneNotSupportedException {
         return (NumValueRepresentation) super.clone();
     }
+
+
 }

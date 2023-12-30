@@ -27,7 +27,9 @@ public class Function extends Block {
         return name;
     }
 
-
+    public List<ArithmExp> getArgs() {
+        return args;
+    }
 
     @Override
     public Function cloneBlock()
