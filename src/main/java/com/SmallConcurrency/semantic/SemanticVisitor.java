@@ -372,14 +372,11 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
 
         // Check the parameters number
         List<Object> functionParameters = new ArrayList<Object>();
-        System.out.println(functionParameters);
+
         if (ctx.exprList() != null ) {
             functionParameters = (List<Object>)ctx.exprList().accept(this);
         }
 
-
-        System.out.println(functionParameters.size());
-        System.out.println(currentFunction.getParameters().size());
         if (functionParameters.size() != currentFunction.getParameters().size()) {
             System.out.println("Error: function " + func_name + " called with wrong number of parameters");
             System.exit(1);

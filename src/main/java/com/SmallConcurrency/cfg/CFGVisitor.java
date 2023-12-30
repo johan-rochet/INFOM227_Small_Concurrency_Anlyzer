@@ -260,12 +260,51 @@ public class CFGVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> {
 
     @Override
     public Object visitFuncCall(SmallConcurrencyGrammarParser.FuncCallContext ctx) {
-        return super.visitFuncCall(ctx);
+
+        String functionName = ctx.ID().getText();
+        Function functionCalled = null;
+        for (Function function : functions.values()) {
+            if (function.getName().equals(functionName)) {
+                functionCalled = function;
+                break;
+
+            }
+        }
+        List<ArithmExp> args = new ArrayList<ArithmExp>();
+        if (ctx.exprList() != null) {
+            args = (List<ArithmExp>) visitExprList(ctx.exprList());
+        }
+
+        Function functionClone= (Function) functionCalled.cloneBlock();
+        functionClone.setArgs(args);
+        return functionClone;
+
     }
 
     @Override
     public Object visitAssignStatement(SmallConcurrencyGrammarParser.AssignStatementContext ctx) {
-        return super.visitAssignStatement(ctx);
+        Variable variable= new Variable(ctx.ID().getText());
+
+        ArithmExp arithm_exp = null;
+        if (ctx.arithmExp() != null) {
+            arithm_exp = (ArithmExp) visitArithmExp(ctx.arithmExp());
+            Assignment assignment = new Assignment(variable, arithm_exp);
+            currentBlock.addChild(assignment);
+            currentBlock = assignment;
+
+        }
+        else {
+            Function function = (Function) visitFuncCall(ctx.funcCall());
+            FuncCallAssignment funcCallAssignment = new FuncCallAssignment(variable, function);
+            currentBlock.addChild(funcCallAssignment);
+            currentBlock = funcCallAssignment.getLastBlock();
+        }
+
+
+        return null;
+
+
+
     }
 
     @Override
@@ -286,14 +325,13 @@ public class CFGVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> {
         currentBlock.addChild(ifElse);
         currentBlock = ifElse;
         block1.accept(this);
-        Block ifLastBlock = currentBlock;
 
         currentBlock = ifElse;
         block2.accept(this);
 
+
         EndIf endIfBlock = new EndIf();
-        ifLastBlock.addChild(endIfBlock);
-        currentBlock.addChild(endIfBlock);
+        ifElse.setEndIf(endIfBlock);
 
         currentBlock = endIfBlock;
 
@@ -302,7 +340,24 @@ public class CFGVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> {
 
     @Override
     public Object visitWhileStatement(SmallConcurrencyGrammarParser.WhileStatementContext ctx) {
-        return super.visitWhileStatement(ctx);
+
+            BoolExpr boolExpr = (BoolExpr) visitBoolExp(ctx.boolExp());
+
+            While whileBlock = new While(boolExpr);
+            currentBlock.addChild(whileBlock);
+
+            currentBlock = whileBlock;
+            if (ctx.sequence() != null) {
+                ctx.sequence().accept(this);
+            }
+            else {
+                ctx.statement().accept(this);
+            }
+            EndWhile endWhileBlock = new EndWhile();
+            whileBlock.setEndWhile(endWhileBlock);
+            currentBlock = endWhileBlock;
+
+            return null;
     }
 
     @Override
@@ -387,12 +442,12 @@ public class CFGVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> {
             currentBlock.addChild(thread);
 
             EntryBlock entryBlock = new EntryBlock();
-            Block previousBlock = currentBlock;
+
             CFGList.add(entryBlock);
             currentBlock = entryBlock;
             ctx.sequence().accept(this);
             currentBlock.addChild(new EndBlock());
-            currentBlock = previousBlock;
+            currentBlock = thread;
 
             return null;
 

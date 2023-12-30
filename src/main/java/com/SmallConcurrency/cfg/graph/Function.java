@@ -23,6 +23,10 @@ public class Function extends Block {
         this.parameters = parameters;
     }
 
+    public String getName() {
+        return name;
+    }
+
 
 
     @Override
@@ -34,7 +38,7 @@ public class Function extends Block {
         return clone;
     }
 
-    public void addArgs(List<ArithmExp> args) {
+    public void setArgs(List<ArithmExp> args) {
         this.args = args;
 
     }

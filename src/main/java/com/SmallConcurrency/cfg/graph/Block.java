@@ -50,6 +50,7 @@ public  abstract  class Block {
     public List<Block> cloneChildren(){
         List<Block> children = new ArrayList<Block>();
         for (Block child : this.children) {
+
             children.add(child.cloneBlock());
         }
         return children;

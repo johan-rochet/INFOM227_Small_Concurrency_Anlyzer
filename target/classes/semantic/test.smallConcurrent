@@ -1,31 +1,12 @@
 gVar x;
 gVar y;
 
+function x(){
+    return 5;
+}
 
 function main () {
-    if (x==2){
-        thread {
-                y = 4;
-        }
-    }
-    else {
-        thread {
-                y = 4;
-            }
-    }
-    thread {
-        lock y;
-        y = 2;
-        unlock y;
-    }
+    x= x();
+}
 
-    thread {
-        y = 4;
-    }
-}
-function f(x1, x2) {
-    var y;
-    var z;
-    y = x1 + x2;
-    return y;
-}
+

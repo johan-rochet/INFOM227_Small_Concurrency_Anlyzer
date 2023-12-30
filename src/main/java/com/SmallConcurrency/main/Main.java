@@ -67,10 +67,12 @@ public class Main {
         tree.accept(cfgVisitor);
 
         for (Block block : cfgVisitor.getCFGList()) {
+            System.out.println("Thread :");
             System.out.println(block.toString());
         }
-
+        System.out.println("Functions :");
         for (Function function : cfgVisitor.getFunctions().values()) {
+
             System.out.println(function.toString());
         }
 

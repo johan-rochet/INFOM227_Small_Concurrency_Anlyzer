@@ -2,41 +2,38 @@ package com.SmallConcurrency.cfg.graph;
 
 import com.SmallConcurrency.cfg.elements.bool.BoolExpr;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-public class IfElse extends Block {
+
+public class While extends Block{
 
     private BoolExpr condition;
-    private EndIf endIf = null;
+    private EndWhile endWhile;
 
-    public IfElse( BoolExpr condition){
+    public While( BoolExpr condition){
 
         this.condition = condition;
     }
 
-    public IfElse(List<Block> children,  BoolExpr condition, EndIf endIf){
+    public While(List<Block> children, BoolExpr condition, EndWhile endWhile){
         super(children);
         this.condition = condition;
-        this.endIf = endIf;
+        this.endWhile = endWhile;
     }
 
-
-    public void setEndIf(EndIf endIf) {
-        this.endIf = endIf;
+    public void setEndWhile(EndWhile endWhile) {
+        this.endWhile = endWhile;
     }
 
     @Override
-    public IfElse cloneBlock() {
-
-        IfElse clone = null;
+    public While cloneBlock() {
+        While clone = null;
         try {
-             clone = new IfElse(this.cloneChildren(), this.condition.clone(), this.endIf.cloneBlock());
+             clone = new While(this.cloneChildren(), this.condition.clone(), this.endWhile.cloneBlock());
         }
         catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
-
         return clone;
 
     }
@@ -50,22 +47,19 @@ public class IfElse extends Block {
 
         }
 
-        result += endIf.toString();
+        result += endWhile.toString();
 
         return result;
     }
 
     @Override
     public Block getLastBlock(){
-        if (this.endIf == null){
+        if (this.endWhile == null){
             return this;
         }
         else{
-            return this.endIf.getLastBlock();
+            return this.endWhile.getLastBlock();
         }
-
     }
-
-
 
 }
