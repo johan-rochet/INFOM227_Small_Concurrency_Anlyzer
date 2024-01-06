@@ -56,4 +56,12 @@ public class StaticAnalysisTest {
         checkRaceConditions(raceConditionsVariable, "x");
     }
 
+    @Test
+    public void Complete () {
+        List<String> raceConditionsVariable = CompileTest.launchAnalysis("/Complete.smallConcurrent");
+        assert raceConditionsVariable.size() == 1;
+        checkRaceConditions(raceConditionsVariable, "x");
+
+    }
+
 }

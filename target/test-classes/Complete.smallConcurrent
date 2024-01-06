@@ -1,0 +1,23 @@
+gVar x;
+gVar y;
+
+function main(){
+    thread {
+        x = 1;
+        thread {
+            var i ;
+            i = 0;
+
+            if (i==0){
+                i = 1;
+            }
+            else{
+                x = 0;
+            }
+        }
+        x=2;
+
+    }
+
+}
+

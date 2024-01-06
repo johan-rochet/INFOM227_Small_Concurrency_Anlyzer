@@ -35,7 +35,7 @@ public class StaticAnalysisVisitor {
     }
 
     public void readGlobalVarValues(String varName) {
-        if (lockVarValues.contains(varName) ) {
+        if (lockVarValues.contains(varName) || !globalVarValues.containsKey(varName) ) {
             return;
 
         }
@@ -53,7 +53,7 @@ public class StaticAnalysisVisitor {
 
     public void writeGlobalVarValues(String varName) {
 
-        if (lockVarValues.contains(varName)) {
+        if (lockVarValues.contains(varName) || !globalVarValues.containsKey(varName)) {
             return;
         }
 
