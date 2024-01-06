@@ -8,15 +8,16 @@ public class LockVarDecl extends Block{
 
     private Variable variable;
 
-    public LockVarDecl( Variable variable){
+    public LockVarDecl( Variable variable, int line){
 
         this.variable = variable;
     }
 
-    public LockVarDecl( List<Block> children,  Variable variable){
+    private LockVarDecl( List<Block> children,  Variable variable, int line){
 
         super(children);
         this.variable = variable;
+        this.line = line;
     }
 
     public Variable getVariable() {
@@ -28,7 +29,7 @@ public class LockVarDecl extends Block{
 
         LockVarDecl clone = null;
         try {
-            clone = new LockVarDecl(this.cloneChildren(), this.variable.clone());
+            clone = new LockVarDecl(this.cloneChildren(), this.variable.clone(), this.line);
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }

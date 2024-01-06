@@ -8,15 +8,23 @@ import java.util.List;
 public  abstract  class Block {
 
     protected List<Block> children = new ArrayList<Block>();
-    public Block(){}
-    public Block(List<Block> children){
-        this.children = children;
 
+    protected int line;
+    public Block(){}
+    public Block(List<Block> children) {
+        this.children = children;
     }
 
     public Block(Block child){
         this.children = new ArrayList<Block>();
         this.children.add(child);
+    }
+
+    public void setLine(int line) {
+        this.line = line;
+    }
+    public int getLine() {
+        return line;
     }
 
 

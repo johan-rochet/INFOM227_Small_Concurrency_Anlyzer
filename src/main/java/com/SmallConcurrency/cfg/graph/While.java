@@ -10,15 +10,17 @@ public class While extends Block{
     private BoolExpr condition;
     private EndWhile endWhile;
 
-    public While( BoolExpr condition){
+    public While( BoolExpr condition, int line){
 
         this.condition = condition;
+        this.line = line;
     }
 
-    public While(List<Block> children, BoolExpr condition, EndWhile endWhile){
+    private While(List<Block> children, BoolExpr condition, EndWhile endWhile, int line){
         super(children);
         this.condition = condition;
         this.endWhile = endWhile;
+        this.line = line;
     }
 
     public void setEndWhile(EndWhile endWhile) {
@@ -36,7 +38,7 @@ public class While extends Block{
     public While cloneBlock() {
         While clone = null;
         try {
-             clone = new While(this.cloneChildren(), this.condition.clone(), this.endWhile.cloneBlock());
+             clone = new While(this.cloneChildren(), this.condition.clone(), this.endWhile.cloneBlock(), this.line);
         }
         catch (CloneNotSupportedException e) {
             e.printStackTrace();

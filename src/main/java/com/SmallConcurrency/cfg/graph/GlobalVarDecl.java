@@ -12,15 +12,17 @@ public class GlobalVarDecl extends Block{
         return variable;
     }
 
-    public GlobalVarDecl(Variable variable){
+    public GlobalVarDecl(Variable variable, int line){
 
         this.variable = variable;
+        this.line = line;
     }
 
-    public GlobalVarDecl( List<Block> children,  Variable variable){
+    private GlobalVarDecl( List<Block> children,  Variable variable, int line){
 
         super(children);
         this.variable = variable;
+        this.line = line;
     }
 
     @Override
@@ -28,7 +30,7 @@ public class GlobalVarDecl extends Block{
 
         GlobalVarDecl clone = null;
         try {
-            clone = new GlobalVarDecl(this.cloneChildren(), this.variable.clone());
+            clone = new GlobalVarDecl(this.cloneChildren(), this.variable.clone(), this.line);
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }

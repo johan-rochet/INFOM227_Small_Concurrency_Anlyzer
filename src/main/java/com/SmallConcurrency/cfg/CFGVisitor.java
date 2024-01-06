@@ -83,6 +83,7 @@ public class CFGVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> {
         CFG = currentBlock;
         visitChildren(ctx);
         currentBlock.addChild(endBlock);
+        System.out.println(CFG);
 
         return CFG;
 
@@ -240,15 +241,15 @@ public class CFGVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> {
         Return returnBlock = null;
         if (arithm_exp instanceof Num) {
             Num num = (Num) arithm_exp;
-            returnBlock = new Return(num);
+            returnBlock = new Return(num, ctx.getStart().getLine());
         }
         else if (arithm_exp instanceof Variable){
             Variable variable = (Variable) arithm_exp;
-            returnBlock = new Return(variable);
+            returnBlock = new Return(variable, ctx.getStart().getLine());
         }
         else {
             BinOp binOp = (BinOp) arithm_exp;
-            returnBlock = new Return(binOp);
+            returnBlock = new Return(binOp, ctx.getStart().getLine());
         }
 
         currentBlock.addChild(returnBlock);
@@ -288,17 +289,20 @@ public class CFGVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> {
     public Object visitAssignStatement(SmallConcurrencyGrammarParser.AssignStatementContext ctx) {
         Variable variable= new Variable(ctx.ID().getText());
 
+
         ArithmExp arithm_exp = null;
         if (ctx.arithmExp() != null) {
             arithm_exp = (ArithmExp) visitArithmExp(ctx.arithmExp());
-            Assignment assignment = new Assignment(variable, arithm_exp);
+            Assignment assignment = new Assignment(variable, arithm_exp, ctx.getStart().getLine());
+
             currentBlock.addChild(assignment);
             currentBlock = assignment;
 
         }
         else {
             Function function = (Function) visitFuncCall(ctx.funcCall());
-            FuncCallAssignment funcCallAssignment = new FuncCallAssignment(variable, function);
+            FuncCallAssignment funcCallAssignment = new FuncCallAssignment(variable, function, ctx.getStart().getLine());
+
             currentBlock.addChild(funcCallAssignment);
             currentBlock = funcCallAssignment.getLastBlock();
         }
@@ -324,7 +328,8 @@ public class CFGVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> {
         ParseTree block1 = children.get(0);
         ParseTree block2 = children.get(1);
 
-        IfElse ifElse = new IfElse(boolExpr);
+        IfElse ifElse = new IfElse(boolExpr, ctx.getStart().getLine());
+        ifElse.setLine(ctx.getStart().getLine());
         currentBlock.addChild(ifElse);
         currentBlock = ifElse;
         block1.accept(this);
@@ -346,7 +351,8 @@ public class CFGVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> {
 
             BoolExpr boolExpr = (BoolExpr) visitBoolExp(ctx.boolExp());
 
-            While whileBlock = new While(boolExpr);
+            While whileBlock = new While(boolExpr, ctx.getStart().getLine());
+            whileBlock.setLine(ctx.getStart().getLine());
             currentBlock.addChild(whileBlock);
 
             currentBlock = whileBlock;
@@ -393,8 +399,8 @@ public class CFGVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> {
             functionParameters = (List<Variable>)visitParamList(ctx.paramList());
         }
 
-        Function functionBlock = new Function(functionName, functionParameters);
-
+        Function functionBlock = new Function(functionName, functionParameters, ctx.getStart().getLine());
+        functionBlock.setLine(ctx.getStart().getLine());
         functions.put(functionName, functionBlock);
         Block previousBlock = currentBlock;
         currentBlock = functionBlock;
@@ -421,7 +427,7 @@ public class CFGVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> {
     @Override
     public Object visitVarDecl(SmallConcurrencyGrammarParser.VarDeclContext ctx) {
         Variable variable = new Variable(ctx.ID().getText());
-        VarDecl varDecl = new VarDecl(variable);
+        VarDecl varDecl = new VarDecl(variable, ctx.getStart().getLine());
         currentBlock.addChild(varDecl);
         currentBlock = varDecl;
         return null;
@@ -431,7 +437,7 @@ public class CFGVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> {
     public Object visitGlobalVarDecl(SmallConcurrencyGrammarParser.GlobalVarDeclContext ctx) {
 
         Variable variable = new Variable(ctx.ID().getText());
-        GlobalVarDecl globalVarDecl = new GlobalVarDecl(variable);
+        GlobalVarDecl globalVarDecl = new GlobalVarDecl(variable, ctx.getStart().getLine());
         currentBlock.addChild(globalVarDecl);
         currentBlock = globalVarDecl;
         return null;
@@ -441,7 +447,7 @@ public class CFGVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> {
     @Override
     public Object visitThreadDecl(SmallConcurrencyGrammarParser.ThreadDeclContext ctx) {
 
-            Thread thread = new Thread();
+            Thread thread = new Thread(ctx.getStart().getLine());
             currentBlock.addChild(thread);
             currentBlock = thread;
 
@@ -460,7 +466,7 @@ public class CFGVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> {
     public Object visitLockVarDecl(SmallConcurrencyGrammarParser.LockVarDeclContext ctx) {
 
         Variable variable = new Variable(ctx.ID().getText());
-        LockVarDecl lockVarDecl = new LockVarDecl(variable);
+        LockVarDecl lockVarDecl = new LockVarDecl(variable, ctx.getStart().getLine());
         currentBlock.addChild(lockVarDecl);
         currentBlock = lockVarDecl;
         return null;
@@ -471,7 +477,7 @@ public class CFGVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> {
     public Object visitUnlockVarDecl(SmallConcurrencyGrammarParser.UnlockVarDeclContext ctx) {
 
             Variable variable = new Variable(ctx.ID().getText());
-            UnlockVarDecl unlockVarDecl = new UnlockVarDecl(variable);
+            UnlockVarDecl unlockVarDecl = new UnlockVarDecl(variable, ctx.getStart().getLine());
             currentBlock.addChild(unlockVarDecl);
             currentBlock = unlockVarDecl;
             return null;

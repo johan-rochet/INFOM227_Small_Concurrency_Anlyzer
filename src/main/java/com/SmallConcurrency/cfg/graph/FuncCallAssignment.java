@@ -10,15 +10,17 @@ public class FuncCallAssignment extends Block{
 
     private Function function;
 
-    public FuncCallAssignment(Variable variable, Function function) {
+    public FuncCallAssignment(Variable variable, Function function, int line) {
         this.variable = variable;
         this.function = function;
+        this.line = line;
     }
 
-    public FuncCallAssignment(List<Block> children, Variable variable, Function function) {
+    private FuncCallAssignment(List<Block> children, Variable variable, Function function, int line) {
         super(children);
         this.variable = variable;
         this.function = function;
+        this.line = line;
     }
 
     @Override
@@ -26,7 +28,7 @@ public class FuncCallAssignment extends Block{
     {
         FuncCallAssignment clone = null;
         try{
-            clone = new FuncCallAssignment(this.cloneChildren(), this.variable.clone(), this.function.cloneBlock());
+            clone = new FuncCallAssignment(this.cloneChildren(), this.variable.clone(), this.function.cloneBlock(), this.line);
         }
         catch (CloneNotSupportedException e) {
             e.printStackTrace();

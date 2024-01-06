@@ -11,15 +11,16 @@ public class IfElse extends Block {
     private BoolExpr condition;
     private EndIf endIf = null;
 
-    public IfElse( BoolExpr condition){
+    public IfElse( BoolExpr condition, int line){
 
         this.condition = condition;
     }
 
-    public IfElse(List<Block> children,  BoolExpr condition, EndIf endIf){
+    private IfElse(List<Block> children,  BoolExpr condition, EndIf endIf, int line){
         super(children);
         this.condition = condition;
         this.endIf = endIf;
+        this.line = line;
     }
 
     public BoolExpr getCondition() {
@@ -39,7 +40,7 @@ public class IfElse extends Block {
 
         IfElse clone = null;
         try {
-             clone = new IfElse(this.cloneChildren(), this.condition.clone(), this.endIf.cloneBlock());
+             clone = new IfElse(this.cloneChildren(), this.condition.clone(), this.endIf.cloneBlock(), this.line);
         }
         catch (CloneNotSupportedException e) {
             e.printStackTrace();

@@ -12,15 +12,17 @@ public class Function extends Block {
     List<Variable> parameters;
 
     List<ArithmExp> args = new ArrayList<ArithmExp>();
-    public Function(String name, List<Variable> parameters) {
+    public Function(String name, List<Variable> parameters, int line) {
         this.name = name;
         this.parameters = parameters;
+        this.line = line;
     }
 
-    public Function(List<Block> children, String name, List<Variable> parameters) {
+    private Function(List<Block> children, String name, List<Variable> parameters, int line) {
         super(children);
         this.name = name;
         this.parameters = parameters;
+        this.line = line;
     }
 
     public String getName() {
@@ -36,7 +38,7 @@ public class Function extends Block {
     {
         Function clone = null;
 
-        clone = new Function(this.cloneChildren(), String.valueOf(this.name), this.cloneVariables());
+        clone = new Function(this.cloneChildren(), String.valueOf(this.name), this.cloneVariables(), this.line);
         return clone;
     }
 

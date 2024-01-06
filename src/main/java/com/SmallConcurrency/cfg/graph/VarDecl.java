@@ -8,12 +8,13 @@ public class VarDecl extends Block{
 
     private Variable variable;
 
-    public VarDecl( Variable variable){
+    public VarDecl( Variable variable, int line){
 
         this.variable = variable;
+        this.line = line;
     }
 
-    public VarDecl( List<Block> children,  Variable variable){
+    private VarDecl( List<Block> children,  Variable variable, int line){
 
         super(children);
         this.variable = variable;
@@ -23,7 +24,7 @@ public class VarDecl extends Block{
     public VarDecl cloneBlock() {
         VarDecl clone = null;
         try {
-            clone = new VarDecl(this.cloneChildren(), this.variable.clone());
+            clone = new VarDecl(this.cloneChildren(), this.variable.clone(),this.line);
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }

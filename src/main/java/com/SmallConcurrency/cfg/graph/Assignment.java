@@ -11,17 +11,19 @@ public class Assignment extends Block {
 
     private ArithmExp arithm_exp;
 
-    public Assignment( Variable variable, ArithmExp arithm_exp){
+    public Assignment( Variable variable, ArithmExp arithm_exp, int line){
 
         this.variable = variable;
         this.arithm_exp = arithm_exp;
+        this.line = line;
     }
 
-    public Assignment( List<Block> children,  Variable variable, ArithmExp arithm_exp){
+    private Assignment( List<Block> children,  Variable variable, ArithmExp arithm_exp, int line){
 
         super(children);
         this.variable = variable;
         this.arithm_exp = arithm_exp;
+        this.line = line;
     }
 
     public Variable getVariable() {
@@ -35,7 +37,7 @@ public class Assignment extends Block {
     public Assignment cloneBlock() {
         Assignment clone = null;
         try {
-             clone = new Assignment(this.cloneChildren(), this.variable.clone(), this.arithm_exp.clone());
+             clone = new Assignment(this.cloneChildren(), this.variable.clone(), this.arithm_exp.clone(), this.line);
         }
         catch (CloneNotSupportedException e) {
             e.printStackTrace();

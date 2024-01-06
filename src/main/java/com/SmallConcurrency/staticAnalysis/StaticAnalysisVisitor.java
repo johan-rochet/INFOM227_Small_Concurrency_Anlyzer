@@ -7,12 +7,17 @@ import com.SmallConcurrency.cfg.elements.arithm.Variable;
 import com.SmallConcurrency.cfg.elements.bool.*;
 import com.SmallConcurrency.cfg.graph.*;
 import com.SmallConcurrency.cfg.graph.Thread;
+import com.SmallConcurrency.main.Main;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
 import static com.SmallConcurrency.main.Utils.mergeGlobalValues;
 
 public class StaticAnalysisVisitor {
+
+    private static final Logger logger = LogManager.getLogger(StaticAnalysisVisitor.class);
 
     private Map<String , VariableAccess> globalVarValues = new HashMap<>();
     private List<Map<String , VariableAccess>> globalVarValuesList = new ArrayList<Map<String , VariableAccess>>() {{
@@ -34,7 +39,7 @@ public class StaticAnalysisVisitor {
         return globalVarValues;
     }
 
-    public void readGlobalVarValues(String varName) {
+    public void readGlobalVarValues(String varName, int line) {
         if (lockVarValues.contains(varName) || !globalVarValues.containsKey(varName) ) {
             return;
 
@@ -42,6 +47,7 @@ public class StaticAnalysisVisitor {
         VariableAccess variableAccess = globalVarValues.get(varName);
         if (variableAccess.getConcurrentValue() == AbstractValues.WA ) {
             variableAccess.setValue(AbstractValues.RC);
+            logger.warn("Race condition detected on variable " + varName + " at line " + line + ":\nRead may happen during write in another thread");
         }
         else {
 
@@ -51,7 +57,7 @@ public class StaticAnalysisVisitor {
         }
     }
 
-    public void writeGlobalVarValues(String varName) {
+    public void writeGlobalVarValues(String varName, int line) {
 
         if (lockVarValues.contains(varName) || !globalVarValues.containsKey(varName)) {
             return;
@@ -61,6 +67,7 @@ public class StaticAnalysisVisitor {
 
         if ( variableAccess.getConcurrentValue() == AbstractValues.RA || variableAccess.getConcurrentValue() == AbstractValues.WA) {
             variableAccess.setValue(AbstractValues.RC);
+            logger.warn("Race condition detected on variable " + varName + " at line " + line + ":\n    Write may happen during read or write in another thread");
         }
         else
         {
@@ -68,14 +75,14 @@ public class StaticAnalysisVisitor {
         }
     }
 
-    public void checkCondition(BoolExpr condition) {
+    public void checkCondition(BoolExpr condition, int line) {
 
 
         if (!(condition instanceof True || condition instanceof False)) {
 
             if (condition instanceof BoolOp) {
 
-                checkForVariableInBoolOp((BoolOp) condition);
+                checkForVariableInBoolOp((BoolOp) condition, line);
             }
 
             else if (condition instanceof RelOp) {
@@ -85,42 +92,42 @@ public class StaticAnalysisVisitor {
                 BoolValueRepresentation right = ((RelOp) condition).getRight();
 
                 if (left instanceof BoolOp) {
-                    checkForVariableInBoolOp((BoolOp) left);
+                    checkForVariableInBoolOp((BoolOp) left, line);
                 }
                 if (right instanceof BoolOp) {
-                    checkForVariableInBoolOp((BoolOp) right);
+                    checkForVariableInBoolOp((BoolOp) right , line);
                 }
             }
 
         }
     }
-    public void checkForVariableInBoolOp(BoolOp condition) {
+    public void checkForVariableInBoolOp(BoolOp condition, int line) {
         NumValueRepresentation left = ((BoolOp) condition).getLeft();
         NumValueRepresentation right = ((BoolOp) condition).getRight();
 
         if (left instanceof Variable) {
-            readGlobalVarValues(((Variable) left).getName());
+            readGlobalVarValues(((Variable) left).getName(), line);
         }
 
         if (right instanceof Variable) {
-            readGlobalVarValues(((Variable) right).getName());
+            readGlobalVarValues(((Variable) right).getName(), line);
         }
 
     }
 
-    public void checkForVariableInArithmExp(ArithmExp arithmExp) {
+    public void checkForVariableInArithmExp(ArithmExp arithmExp, int line) {
         if (arithmExp instanceof Variable) {
-            readGlobalVarValues(((Variable) arithmExp).getName());
+            readGlobalVarValues(((Variable) arithmExp).getName(), line);
         }
         else if (arithmExp instanceof BinOp) {
             ArithmExp left = ((BinOp) arithmExp).getLeft();
             ArithmExp right = ((BinOp) arithmExp).getRight();
 
             if (left instanceof Variable) {
-                readGlobalVarValues(((Variable) left).getName());
+                readGlobalVarValues(((Variable) left).getName(), line);
             }
             if (right instanceof Variable) {
-                readGlobalVarValues(((Variable) right).getName());
+                readGlobalVarValues(((Variable) right).getName(), line);
             }
         }
     }
@@ -193,9 +200,9 @@ public class StaticAnalysisVisitor {
 
         ArithmExp arithmExp = assignment.getArithm_exp();
 
-        checkForVariableInArithmExp(arithmExp);
+        checkForVariableInArithmExp(arithmExp, assignment.getLine());
 
-        writeGlobalVarValues(variable.getName());
+        writeGlobalVarValues(variable.getName(), assignment.getLine());
 
         visitChildren(assignment);
     }
@@ -224,7 +231,7 @@ public class StaticAnalysisVisitor {
 
         Variable variable = funcCallAssignment.getVariable();
 
-        writeGlobalVarValues(variable.getName());
+        writeGlobalVarValues(variable.getName(), funcCallAssignment.getLine());
 
         visitChildren(funcCallAssignment);
 
@@ -233,7 +240,7 @@ public class StaticAnalysisVisitor {
     public void visitFunction (Function function) {
 
         for( ArithmExp arg : function.getArgs()) {
-            checkForVariableInArithmExp(arg);
+            checkForVariableInArithmExp(arg, function.getLine());
         }
 
         visitChildren(function);
@@ -249,7 +256,7 @@ public class StaticAnalysisVisitor {
 
             BoolExpr condition = ifElse.getCondition() ;
 
-            checkCondition(condition);
+            checkCondition(condition, ifElse.getLine());
 
             for (Block child : ifElse.getChildren()) {
                 child.accept(this);
@@ -266,7 +273,7 @@ public class StaticAnalysisVisitor {
     public void visitReturn(Return returnBlock) {
         ArithmExp returnVar = returnBlock.getReturnVar() ;
 
-        checkForVariableInArithmExp(returnVar);
+        checkForVariableInArithmExp(returnVar, returnBlock.getLine());
 
         visitChildren(returnBlock);
 
@@ -303,7 +310,7 @@ public class StaticAnalysisVisitor {
 
         BoolExpr condition = whileBlock.getCondition() ;
 
-        checkCondition(condition);
+        checkCondition(condition, whileBlock.getLine());
 
         for (Block child : whileBlock.getChildren()) {
             child.accept(this);

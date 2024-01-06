@@ -36,9 +36,9 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
         functions = new ArrayList<FunctionInfo>();
     }
 
-    public void printInfo () {
+    private void printInfo () {
 
-        logger.error("Global variables: ");
+        System.out.println("Global variables: ");
         for (Map.Entry<String, Integer> entry : globalScope.entrySet()) {
             System.out.println(entry.getKey() + " : " + entry.getValue());
         }
@@ -342,6 +342,10 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
             currentThread.addToLastInstructionsSet(ctx);
         }
         else {
+            if (currentThread.getInstructions_set().size() == 1) {
+                logger.error("Error: return statement in main");
+                System.exit(1);
+            }
             currentThread.getLocal_scopes().remove(currentThread.getLocal_scopes().size() - 1);
             currentThread.getInstructions_set().remove(currentThread.getInstructions_set().size() - 1);
             currentThread.getLastLocalScope().put(currentThread.popReturnIntoVariable(), value);

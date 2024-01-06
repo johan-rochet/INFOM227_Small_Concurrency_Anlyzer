@@ -10,13 +10,15 @@ public class Return extends Block{
 
     private ArithmExp returnVar;
 
-    public Return(ArithmExp returnVar){
+    public Return(ArithmExp returnVar, int line){
         this.returnVar = returnVar;
+        this.line = line;
     }
 
-    public Return(List<Block> children, ArithmExp returnVar){
+    private Return(List<Block> children, ArithmExp returnVar, int line){
         super(children);
         this.returnVar = returnVar;
+        this.line = line;
     }
 
     public ArithmExp getReturnVar() {
@@ -27,7 +29,7 @@ public class Return extends Block{
     public Return cloneBlock(){
         Return clone = null;
         try {
-            clone = new Return(this.cloneChildren(), this.returnVar.clone());
+            clone = new Return(this.cloneChildren(), this.returnVar.clone(), this.line);
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }

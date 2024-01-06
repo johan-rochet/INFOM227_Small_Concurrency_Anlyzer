@@ -61,12 +61,19 @@ public class Main {
 
         SmallConcurrencyGrammarParser.RootContext tree;
 
+
         try {
             tree = parser.root();
 
         } catch (RecognitionException e) {
             throw new IllegalArgumentException("Error while retrieving parsing tree!", e);
         }
+
+        if (parser.getNumberOfSyntaxErrors() > 0) {
+            logger.error("Syntax error detected!");
+            System.exit(-1);
+        }
+
 
         SemanticVisitor visitor = new SemanticVisitor();
 

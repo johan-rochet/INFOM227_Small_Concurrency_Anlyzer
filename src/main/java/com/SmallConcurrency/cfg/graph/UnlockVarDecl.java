@@ -8,15 +8,17 @@ public class UnlockVarDecl extends Block{
 
     private Variable variable;
 
-    public UnlockVarDecl(  Variable variable){
+    public UnlockVarDecl(  Variable variable, int line){
 
         this.variable = variable;
+        this.line = line;
     }
 
-    public UnlockVarDecl( List<Block> children,   Variable variable){
+    private UnlockVarDecl( List<Block> children,   Variable variable, int line){
 
         super(children);
         this.variable = variable;
+        this.line = line;
     }
 
     public Variable getVariable() {
@@ -27,7 +29,7 @@ public class UnlockVarDecl extends Block{
 
         UnlockVarDecl clone = null;
         try {
-            clone = new UnlockVarDecl(this.cloneChildren(), this.variable.clone());
+            clone = new UnlockVarDecl(this.cloneChildren(), this.variable.clone(), this.line);
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
