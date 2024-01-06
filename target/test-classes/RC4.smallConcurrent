@@ -1,0 +1,19 @@
+gVar x;
+gVar y;
+
+function main(){
+    thread {
+        x = 1;
+        thread {
+        if (y==1){
+            x=2;
+            }
+        else{}
+
+        }
+        y= x;
+
+    }
+
+}
+

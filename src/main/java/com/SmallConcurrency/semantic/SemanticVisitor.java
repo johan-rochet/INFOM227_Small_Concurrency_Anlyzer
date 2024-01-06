@@ -9,11 +9,16 @@ import org.antlr.v4.runtime.tree.RuleNode;
 
 import java.util.*;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import static com.SmallConcurrency.main.Utils.getIfAndElseBlock;
 import static com.SmallConcurrency.main.Utils.getParserRuleContextFromParseTree;
 
 
 public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> {
+
+    private static final Logger logger = LogManager.getLogger(SemanticVisitor.class);
 
     private Map<String, Integer> globalScope;
     private List<Thread> threads;
@@ -33,7 +38,7 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
 
     public void printInfo () {
 
-        System.out.println("Global variables: ");
+        logger.error("Global variables: ");
         for (Map.Entry<String, Integer> entry : globalScope.entrySet()) {
             System.out.println(entry.getKey() + " : " + entry.getValue());
         }
@@ -45,7 +50,7 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
             }
             System.out.println("Thread local scopes: ");
             for (Map<String, Integer> local_scope : thread.getLocal_scopes()) {
-                System.out.println("here");
+
                 for (Map.Entry<String, Integer> entry : local_scope.entrySet()) {
                     System.out.println(entry.getKey() + " : " + entry.getValue());
                 }
@@ -121,7 +126,7 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
         }
         else if (!(currentThread.getLocked_variables().isEmpty()))
         {
-            System.out.println("Error: thread does not unlock all the variables");
+            logger.error("Error: thread does not unlock all the variables");
             System.exit(1);
         }
 
@@ -239,7 +244,7 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
                 return globalScope.get(var_name);
             }
             else {
-                System.out.println("Error: variable " + var_name + " not declared");
+                logger.error("Error: variable " + var_name + " not declared");
                 System.exit(1);
             }
         }
@@ -332,7 +337,6 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
     @Override
     public Object visitReturnStatement(SmallConcurrencyGrammarParser.ReturnStatementContext ctx) {
 
-        System.out.println("Return statement");
         Integer value = (Integer) ctx.arithmExp().accept(this);
         if (value.equals(KO)) {
             currentThread.addToLastInstructionsSet(ctx);
@@ -354,9 +358,7 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
 
     @Override
     public Object visitFuncCall(SmallConcurrencyGrammarParser.FuncCallContext ctx) {
-        System.out.println("Function call");
-
-        String func_name = ctx.ID().getText();
+                String func_name = ctx.ID().getText();
         FunctionInfo currentFunction = null;
         for (FunctionInfo function : functions) {
             if (function.getName().equals(func_name)) {
@@ -366,7 +368,7 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
         }
 
         if (currentFunction == null) {
-            System.out.println("Error: function " + func_name + " not declared");
+            logger.error("Error: function " + func_name + " not declared");
             System.exit(1);
         }
 
@@ -378,7 +380,7 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
         }
 
         if (functionParameters.size() != currentFunction.getParameters().size()) {
-            System.out.println("Error: function " + func_name + " called with wrong number of parameters");
+            logger.error("Error: function " + func_name + " called with wrong number of parameters");
             System.exit(1);
         }
 
@@ -394,9 +396,7 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
                 locked = true;
                 break;
             }
-            System.out.println("Parameter: " + parameter);
         }
-        System.out.println("4");
 
         if(!locked) {
             // Add the parameters to the local scope
@@ -420,7 +420,6 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
 
     @Override
     public Object visitAssignStatement(SmallConcurrencyGrammarParser.AssignStatementContext ctx) {
-        System.out.println("Assignement");
         String var_name = ctx.ID().getText();
 
         if (ctx.arithmExp() != null) {
@@ -432,10 +431,10 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
             else {
 
                 if (currentThread.getLastLocalScope().containsKey(var_name)) {
-                    System.out.println("Local variable");
+
                     currentThread.getLastLocalScope().put(var_name, value);
                 } else if (globalScope.containsKey(var_name)) {
-                    System.out.println("Global variable");
+
                     if (all_locked_variables.contains(var_name) && !currentThread.getLocked_variables().contains(var_name)) {
                         currentThread.addToLastInstructionsSet(ctx);
                     } else {
@@ -443,7 +442,7 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
                     }
 
                 } else {
-                    System.out.println("Error: variable " + var_name + " not declared");
+                    logger.error("Error: variable " + var_name + " not declared");
                     System.exit(1);
 
                 }
@@ -458,7 +457,7 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
                 currentThread.addToLastInstructionsSet(ctx.funcCall());
             }
             else {
-                System.out.println("Error: variable " + var_name + " not declared");
+                logger.error("Error: variable " + var_name + " not declared");
                 System.exit(1);
             }
 
@@ -482,7 +481,7 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
         else if (
                 ! (condition instanceof Boolean)
         ) {
-            System.out.println("Error: condition must be a boolean");
+            logger.error("Error: condition must be a boolean");
             System.exit(1);
         }
 
@@ -526,16 +525,14 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
 
     @Override
     public Object visitWhileStatement(SmallConcurrencyGrammarParser.WhileStatementContext ctx) {
-        System.out.println("While statement");
+
 
         Object condition = (Boolean) ctx.boolExp().accept(this);
         if (condition.equals(KO)) {
-            System.out.println("KO");
             currentThread.addToLastInstructionsSet(ctx);
         }
         else {
             if ((Boolean) condition) {
-                System.out.println("True");
                 List<ParserRuleContext> instructions = new ArrayList<>() ;
                 if (ctx.sequence() != null) {
                     instructions = getParserRuleContextFromParseTree(ctx.sequence().children);
@@ -583,12 +580,12 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
 
     @Override
     public Object visitFuncDef(SmallConcurrencyGrammarParser.FuncDefContext ctx) {
-        System.out.println("Function declaration");
+
         String func_name = ctx.ID().getText();
 
         for (FunctionInfo function : functions) {
             if (function.getName().equals(func_name)) {
-                System.out.println("Error: function " + func_name + " already declared");
+                logger.error("Error: function " + func_name + " already declared");
                 System.exit(1);
             }
         }
@@ -614,15 +611,15 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
 
     @Override
     public Object visitVarDecl(SmallConcurrencyGrammarParser.VarDeclContext ctx) {
-        System.out.println("Variable declaration");
+
         String var_name = ctx.ID().getText();
 
         if (currentThread.getLastLocalScope().containsKey(var_name)) {
-            System.out.println("Error: variable " + var_name + " already declared");
+            logger.error("Error: variable " + var_name + " already declared");
             System.exit(1);
         }
         if (globalScope.containsKey(var_name)) {
-            System.out.println("Error: variable " + var_name + " already declared as global");
+            logger.error("Error: variable " + var_name + " already declared as global");
             System.exit(1);
         }
         currentThread.getLastLocalScope().put(var_name, 0);
@@ -634,11 +631,11 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
 
     @Override public Object visitGlobalVarDecl(SmallConcurrencyGrammarParser.GlobalVarDeclContext ctx) {
 
-        System.out.println("Global variable declaration");
+
         String var_name = ctx.ID().getText();
 
         if (globalScope.containsKey(var_name)) {
-            System.out.println("Error: variable " + var_name + " already declared");
+            logger.error("Error: variable " + var_name + " already declared");
             System.exit(1);
         }
 
@@ -650,7 +647,7 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
 
     @Override
     public Object visitThreadDecl(SmallConcurrencyGrammarParser.ThreadDeclContext ctx) {
-        System.out.println("Thread declaration");
+
         List<ParserRuleContext> instructions = getParserRuleContextFromParseTree(ctx.sequence().children);
 
         List<List<ParserRuleContext>> instructions_set = new ArrayList<List<ParserRuleContext>>();
@@ -683,10 +680,10 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
             currentThread.getLocked_variables().add(var_name);
         }
         else if (currentThread.getLastLocalScope().containsKey(var_name)) {
-            System.out.println("Error: local variable " + var_name + " cannot be locked");
+            logger.error("Error: local variable " + var_name + " cannot be locked");
         }
         else {
-            System.out.println("Error: variable " + var_name + " not declared");
+            logger.error("Error: variable " + var_name + " not declared");
             System.exit(1);
         }
 
@@ -701,21 +698,21 @@ public class SemanticVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> 
 
             if (globalScope.containsKey(var_name)) {
                 if (!all_locked_variables.contains(var_name)) {
-                    System.out.println("Error: variable " + var_name + " not locked");
+                    logger.error("Error: variable " + var_name + " not locked");
                     System.exit(1);
                 }
                 if (!currentThread.getLocked_variables().contains(var_name)) {
-                    System.out.println("Error: variable " + var_name + " not locked in this thread");
+                    logger.error("Error: variable " + var_name + " not locked in this thread");
                     System.exit(1);
                 }
                 all_locked_variables.remove(var_name);
                 currentThread.getLocked_variables().remove(var_name);
             }
             else if (currentThread.getLastLocalScope().containsKey(var_name)) {
-                System.out.println("Error: local variable " + var_name + " cannot be unlocked");
+                logger.error("Error: local variable " + var_name + " cannot be unlocked");
             }
             else {
-                System.out.println("Error: variable " + var_name + " not declared");
+                logger.error("Error: variable " + var_name + " not declared");
                 System.exit(1);
             }
 

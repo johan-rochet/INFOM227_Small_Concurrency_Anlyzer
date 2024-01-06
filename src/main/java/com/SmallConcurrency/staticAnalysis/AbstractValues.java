@@ -4,5 +4,5 @@ public enum AbstractValues {
     NA,
     WA,
     RA,
-    WRA
+    RC,
 }

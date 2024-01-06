@@ -15,7 +15,6 @@ public class GlobalVarDecl extends Block{
     public GlobalVarDecl(Variable variable){
 
         this.variable = variable;
-        System.out.println(this.getVariable());
     }
 
     public GlobalVarDecl( List<Block> children,  Variable variable){

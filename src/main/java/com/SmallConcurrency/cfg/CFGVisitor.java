@@ -20,13 +20,14 @@ import static com.SmallConcurrency.main.Utils.getParserRuleContextFromParseTree;
 public class CFGVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> {
 
     private Map<String, Function> functions = new HashMap<>();
-    private List<Block> CFGList = new ArrayList<Block>();
 
+
+    private Block CFG ;
     private Block currentBlock = new EntryBlock();
     private EndBlock endBlock = new EndBlock();
 
-    public List<Block> getCFGList() {
-        return CFGList;
+    public Block getCFG() {
+        return CFG;
     }
 
     public Map<String, Function> getFunctions() {
@@ -78,10 +79,12 @@ public class CFGVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> {
     @Override
     public Object visitRoot(SmallConcurrencyGrammarParser.RootContext ctx) {
 
-        CFGList.add(currentBlock);
+
+        CFG = currentBlock;
         visitChildren(ctx);
         currentBlock.addChild(endBlock);
-        return CFGList;
+
+        return CFG;
 
     }
 
@@ -440,14 +443,14 @@ public class CFGVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> {
 
             Thread thread = new Thread();
             currentBlock.addChild(thread);
-
-            EntryBlock entryBlock = new EntryBlock();
-
-            CFGList.add(entryBlock);
-            currentBlock = entryBlock;
-            ctx.sequence().accept(this);
-            currentBlock.addChild(new EndBlock());
             currentBlock = thread;
+
+
+
+            ctx.sequence().accept(this);
+            EndThread endThread = new EndThread();
+            currentBlock.addChild(endThread);
+            currentBlock = endThread;
 
             return null;
 

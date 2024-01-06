@@ -1,6 +1,9 @@
 
 package com.SmallConcurrency.main;
 
+import com.SmallConcurrency.staticAnalysis.VariableAccess;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.SmallConcurrency.cfg.CFGVisitor;
 import com.SmallConcurrency.cfg.graph.Block;
@@ -21,26 +24,32 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+import static com.SmallConcurrency.main.Utils.mergeOperator;
+
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
-
-    private static File inputFile;
+    private static final Logger logger = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) {
 
+        String input = "/semantic/test.smallConcurrent";
+
         try {
-            analyse("/semantic/test.smallConcurrent");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
+            analyse(new File(Main.class.getResource(input).toURI()));
+        }
+        catch (URISyntaxException e) {
+            logger.error("Error while launching file" + input + ": URISyntaxException");
+        }
+        catch (IOException e) {
+            logger.error("Error while launching file" + input + ": IOException");
         }
     }
 
-    public static void analyse(String input) throws URISyntaxException, IOException {
+    public static List<String> analyse(File inputFile) throws  IOException {
 
-        inputFile = new File(Main.class.getResource(input).toURI());
+
 
         CharStream tokens = CharStreams.fromPath(inputFile.toPath());
 
@@ -73,39 +82,30 @@ public class Main {
         CFGVisitor cfgVisitor = new CFGVisitor();
         tree.accept(cfgVisitor);
 
-        for (Block block : cfgVisitor.getCFGList()) {
-            System.out.println("Thread :");
-            System.out.println(block.toString());
-        }
-        System.out.println("Functions :");
-        for (Function function : cfgVisitor.getFunctions().values()) {
-
-            System.out.println(function.toString());
-        }
-
         System.out.println("Finished cfg generation!");
 
+        StaticAnalysisVisitor staticAnalysisVisitor = new StaticAnalysisVisitor();
+        cfgVisitor.getCFG().accept(staticAnalysisVisitor);
 
-        List<Map<String, AbstractValues>> globalVarValues = new ArrayList<>() ;
+        Map<String, VariableAccess> globalVarValues = staticAnalysisVisitor.getGlobalVarValues();
 
-        for (Block block : cfgVisitor.getCFGList()) {
-            StaticAnalysisVisitor staticAnalysisVisitor = null ;
-            if (globalVarValues.isEmpty()) {
-                staticAnalysisVisitor = new StaticAnalysisVisitor();
+        List<String> raceConditions = new ArrayList<>();
+
+        for (String varName : globalVarValues.keySet()) {
+
+            AbstractValues value = mergeOperator(globalVarValues.get(varName).getValue(), globalVarValues.get(varName).getConcurrentValue());
+            if (value == AbstractValues.RC) {
+                raceConditions.add(varName);
+                logger.warn("Race condition detected on variable " + varName + "!");
             }
-            else {
-                staticAnalysisVisitor = new StaticAnalysisVisitor(globalVarValues.get(globalVarValues.size()-1).keySet());
-            }
-            block.accept(staticAnalysisVisitor);
-            globalVarValues.add(staticAnalysisVisitor.getGlobalVarValues());
-
         }
 
-        System.out.println("Global variables values :");
-        for (Map<String, AbstractValues> globalVarValue : globalVarValues) {
+        return raceConditions;
 
-            System.out.println(globalVarValue);
-        }
+
+
+
+
 
 
     }

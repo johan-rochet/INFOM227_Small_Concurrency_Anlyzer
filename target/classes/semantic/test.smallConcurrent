@@ -3,7 +3,9 @@ gVar y;
 
 function main(){
     lock x;
-    thread {}
+    thread {
+        x = y;
+        }
     if(x == y){
 
         y = 1;
@@ -13,6 +15,7 @@ function main(){
         }
 
     unlock x;
+
 
 }
 

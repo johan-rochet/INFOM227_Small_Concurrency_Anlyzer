@@ -10,39 +10,44 @@ import com.SmallConcurrency.cfg.graph.Thread;
 
 import java.util.*;
 
+import static com.SmallConcurrency.main.Utils.mergeGlobalValues;
+
 public class StaticAnalysisVisitor {
 
-    private Map<String , AbstractValues> globalVarValues = new HashMap<>();
-
+    private Map<String , VariableAccess> globalVarValues = new HashMap<>();
+    private List<Map<String , VariableAccess>> globalVarValuesList = new ArrayList<Map<String , VariableAccess>>() {{
+        add(globalVarValues);
+    }};
     private List<String> lockVarValues = new ArrayList<>();
-    private Boolean noConcurrentThread = true;
+
+    private List<List<String>> lockVarValuesList = new ArrayList<List<String>>() {{
+        add(lockVarValues);
+    }};
+
 
 
     public StaticAnalysisVisitor() {
     }
-    public StaticAnalysisVisitor(Set<String> globalVarValues) {
-        this.noConcurrentThread = false;
-        for (String globalVarValue : globalVarValues) {
-            this.globalVarValues.put(globalVarValue, AbstractValues.NA);
-        }
-    }
 
-    public Map<String, AbstractValues> getGlobalVarValues() {
+
+    public Map<String, VariableAccess> getGlobalVarValues() {
         return globalVarValues;
     }
 
     public void readGlobalVarValues(String varName) {
-        if (lockVarValues.contains(varName)) {
+        if (lockVarValues.contains(varName) ) {
             return;
-        }
-        if (globalVarValues.containsKey(varName)) {
-            if (globalVarValues.get(varName) == AbstractValues.WA) {
-                globalVarValues.put(varName, AbstractValues.WRA);
-            }
-            else if (globalVarValues.get(varName) == AbstractValues.NA) {
-                globalVarValues.put(varName, AbstractValues.RA);
-            }
 
+        }
+        VariableAccess variableAccess = globalVarValues.get(varName);
+        if (variableAccess.getConcurrentValue() == AbstractValues.WA ) {
+            variableAccess.setValue(AbstractValues.RC);
+        }
+        else {
+
+            if (variableAccess.getValue() == AbstractValues.NA) {
+                variableAccess.setValue(AbstractValues.RA);
+            }
         }
     }
 
@@ -51,20 +56,21 @@ public class StaticAnalysisVisitor {
         if (lockVarValues.contains(varName)) {
             return;
         }
-        if (globalVarValues.containsKey(varName)) {
-            if (globalVarValues.get(varName) == AbstractValues.RA) {
-                globalVarValues.put(varName, AbstractValues.WRA);
-            }
-            else if (globalVarValues.get(varName) == AbstractValues.NA) {
-                globalVarValues.put(varName, AbstractValues.WA);
-            }
 
+        VariableAccess variableAccess = globalVarValues.get(varName);
+
+        if ( variableAccess.getConcurrentValue() == AbstractValues.RA || variableAccess.getConcurrentValue() == AbstractValues.WA) {
+            variableAccess.setValue(AbstractValues.RC);
+        }
+        else
+        {
+            variableAccess.setValue(AbstractValues.WA);
         }
     }
 
     public void checkCondition(BoolExpr condition) {
 
-        System.out.println("Hello");
+
         if (!(condition instanceof True || condition instanceof False)) {
 
             if (condition instanceof BoolOp) {
@@ -170,6 +176,9 @@ public class StaticAnalysisVisitor {
         else if (block instanceof EntryBlock) {
             visitEntryBlock((EntryBlock) block);
         }
+        else if (block instanceof EndThread){
+            visitEndThread((EndThread) block);
+        }
     }
 
     public void visitChildren(Block block) {
@@ -232,11 +241,7 @@ public class StaticAnalysisVisitor {
 
     public void visitGlobalVarDecl(GlobalVarDecl globalVarDecl) {
 
-        System.out.println(globalVarDecl.getVariable());
-        if (noConcurrentThread) {
-            globalVarValues.put(globalVarDecl.getVariable().getName(), AbstractValues.NA);
-        }
-
+        globalVarValues.put(globalVarDecl.getVariable().getName(), new VariableAccess( AbstractValues.NA, AbstractValues.NA));
         visitChildren(globalVarDecl);
     }
 
@@ -268,7 +273,19 @@ public class StaticAnalysisVisitor {
     }
 
     public void visitThread(Thread thread) {
-        this.noConcurrentThread = false;
+
+        Map<String, VariableAccess> newGlobalVarValues = new HashMap<>();
+
+        for (String varName : globalVarValues.keySet()) {
+            newGlobalVarValues.put(varName, new VariableAccess( AbstractValues.NA, AbstractValues.NA ))  ;
+        }
+
+        globalVarValuesList.add(newGlobalVarValues);
+        globalVarValues = newGlobalVarValues;
+
+        List<String> newLockVarValues = new ArrayList<>();
+        lockVarValuesList.add(newLockVarValues);
+        lockVarValues = newLockVarValues;
         visitChildren(thread);
     }
 
@@ -297,5 +314,37 @@ public class StaticAnalysisVisitor {
 
 
 
+    }
+
+    public void visitEndThread(EndThread endThread) {
+
+        Map<String, VariableAccess>  globalVarValues2 = globalVarValuesList.remove(globalVarValuesList.size()-1);
+        Map<String, VariableAccess>  globalVarValues1 = globalVarValuesList.remove(globalVarValuesList.size()-1);
+
+
+        /*for (String varName : globalVarValues1.keySet()) {
+            System.out.println(varName + " " + globalVarValues1.get(varName));
+        }
+        for (String varName : globalVarValues2.keySet()) {
+            System.out.println(varName + " " + globalVarValues2.get(varName));
+        }
+        System.out.println("-------------------------------------------------");
+        */
+        Map<String, VariableAccess> mergedGlobalVarValues = mergeGlobalValues(globalVarValues1, globalVarValues2);
+
+        /*
+        for (String varName : mergedGlobalVarValues.keySet()) {
+            System.out.println(varName + " " + mergedGlobalVarValues.get(varName));
+        }
+
+        System.out.println("-------------------------------------------------");
+        */
+
+        globalVarValues = mergedGlobalVarValues;
+        globalVarValuesList.add(globalVarValues);
+        lockVarValues = lockVarValuesList.remove(lockVarValuesList.size()-1);
+
+
+        visitChildren(endThread);
     }
 }

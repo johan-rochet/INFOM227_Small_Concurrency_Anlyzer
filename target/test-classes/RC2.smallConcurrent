@@ -1,0 +1,19 @@
+gVar x;
+gVar y;
+
+function main(){
+    thread {
+        x = 1;
+        thread {
+            lock y ;
+            x = 2;
+            y=4;
+            unlock y;
+
+        }
+        y= x+2;
+
+    }
+
+}
+

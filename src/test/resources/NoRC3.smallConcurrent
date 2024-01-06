@@ -1,0 +1,22 @@
+gVar x;
+gVar y;
+
+function main(){
+    thread {
+        x = 1;
+        thread {
+            y = 1;
+        }
+
+        thread {
+            y = 2;
+        }
+        x=2;
+    }
+
+
+
+
+
+}
+
