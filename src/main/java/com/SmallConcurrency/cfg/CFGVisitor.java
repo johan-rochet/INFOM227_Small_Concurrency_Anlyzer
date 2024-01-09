@@ -305,6 +305,7 @@ public class CFGVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> {
 
             currentBlock.addChild(funcCallAssignment);
             currentBlock = funcCallAssignment.getLastBlock();
+
         }
 
 

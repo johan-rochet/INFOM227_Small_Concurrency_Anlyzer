@@ -58,4 +58,8 @@ public class FuncCallAssignment extends Block{
     public Block getLastBlock(){
         return this.function.getLastBlock();
     }
+
+    public Function getFunction() {
+        return function;
+    }
 }

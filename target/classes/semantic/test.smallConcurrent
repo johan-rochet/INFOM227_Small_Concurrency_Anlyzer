@@ -4,7 +4,7 @@ gVar z;
 gVar w;
 
 function f() {
-    return y+w;
+    return x;
 }
 
 function main(){
@@ -31,4 +31,5 @@ function main(){
     }
 
     x = f();
+    x=5;
 }

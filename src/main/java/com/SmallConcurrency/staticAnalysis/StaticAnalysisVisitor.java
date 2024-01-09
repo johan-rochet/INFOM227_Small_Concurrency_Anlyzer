@@ -130,9 +130,11 @@ public class StaticAnalysisVisitor {
             ArithmExp right = ((BinOp) arithmExp).getRight();
 
             if (left instanceof Variable) {
+
                 readGlobalVarValues(((Variable) left).getName(), line);
             }
             if (right instanceof Variable) {
+
                 readGlobalVarValues(((Variable) right).getName(), line);
             }
         }
@@ -160,6 +162,7 @@ public class StaticAnalysisVisitor {
             visitLockVarDecl((LockVarDecl) block);
         }
         else if (block instanceof Return) {
+
             visitReturn((Return) block);
         }
         else if (block instanceof Thread) {
@@ -195,7 +198,10 @@ public class StaticAnalysisVisitor {
     }
 
     public void visitChildren(Block block) {
+
         for (Block child : block.getChildren()) {
+
+
             child.accept(this);
         }
     }
@@ -239,7 +245,8 @@ public class StaticAnalysisVisitor {
 
         writeGlobalVarValues(variable.getName(), funcCallAssignment.getLine());
 
-        visitChildren(funcCallAssignment);
+
+        visitChildren(funcCallAssignment.getFunction());
 
 
     }
@@ -248,6 +255,8 @@ public class StaticAnalysisVisitor {
         for( ArithmExp arg : function.getArgs()) {
             checkForVariableInArithmExp(arg, function.getLine());
         }
+
+
 
         visitChildren(function);
     }
@@ -278,6 +287,7 @@ public class StaticAnalysisVisitor {
 
     public void visitReturn(Return returnBlock) {
         ArithmExp returnVar = returnBlock.getReturnVar() ;
+
 
         checkForVariableInArithmExp(returnVar, returnBlock.getLine());
 
