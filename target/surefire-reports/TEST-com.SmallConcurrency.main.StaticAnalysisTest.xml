@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.SmallConcurrency.main.StaticAnalysisTest" time="0.562" tests="8" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="18"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.class.path" value="C:\Users\johan\Documents\2eme master\Q1\PAC\INFOM227_Small_Concurrency_Anlyzer\target\test-classes;C:\Users\johan\Documents\2eme master\Q1\PAC\INFOM227_Small_Concurrency_Anlyzer\target\classes;C:\Users\johan\.m2\repository\org\antlr\antlr4-runtime\4.13.1\antlr4-runtime-4.13.1.jar;C:\Users\johan\.m2\repository\org\apache\logging\log4j\log4j-api\2.22.1\log4j-api-2.22.1.jar;C:\Users\johan\.m2\repository\org\apache\logging\log4j\log4j-core\2.22.1\log4j-core-2.22.1.jar;C:\Users\johan\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.9.2\junit-jupiter-engine-5.9.2.jar;C:\Users\johan\.m2\repository\org\junit\platform\junit-platform-engine\1.9.2\junit-platform-engine-1.9.2.jar;C:\Users\johan\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\johan\.m2\repository\org\junit\platform\junit-platform-commons\1.9.2\junit-platform-commons-1.9.2.jar;C:\Users\johan\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.9.2\junit-jupiter-api-5.9.2.jar;C:\Users\johan\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
+    <property name="user.timezone" value="Europe/Brussels"/>
+    <property name="os.name" value="Windows 11"/>
+    <property name="java.vm.specification.version" value="18"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="BE"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\jdk-18.0.2.1\bin"/>
+    <property name="sun.java.command" value="C:\Users\johan\AppData\Local\Temp\surefire102021517964136923\surefirebooter-20240109195220908_3.jar C:\Users\johan\AppData\Local\Temp\surefire102021517964136923 2024-01-09T19-52-20_731-jvmRun1 surefire-20240109195220908_1tmp surefire_0-20240109195220908_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="C:\Users\johan\Documents\2eme master\Q1\PAC\INFOM227_Small_Concurrency_Anlyzer\target\test-classes;C:\Users\johan\Documents\2eme master\Q1\PAC\INFOM227_Small_Concurrency_Anlyzer\target\classes;C:\Users\johan\.m2\repository\org\antlr\antlr4-runtime\4.13.1\antlr4-runtime-4.13.1.jar;C:\Users\johan\.m2\repository\org\apache\logging\log4j\log4j-api\2.22.1\log4j-api-2.22.1.jar;C:\Users\johan\.m2\repository\org\apache\logging\log4j\log4j-core\2.22.1\log4j-core-2.22.1.jar;C:\Users\johan\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.9.2\junit-jupiter-engine-5.9.2.jar;C:\Users\johan\.m2\repository\org\junit\platform\junit-platform-engine\1.9.2\junit-platform-engine-1.9.2.jar;C:\Users\johan\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\johan\.m2\repository\org\junit\platform\junit-platform-commons\1.9.2\junit-platform-commons-1.9.2.jar;C:\Users\johan\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.9.2\junit-jupiter-api-5.9.2.jar;C:\Users\johan\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\johan"/>
+    <property name="user.language" value="fr"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2022-08-18"/>
+    <property name="java.home" value="C:\Program Files\jdk-18.0.2.1"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="C:\Users\johan\Documents\2eme master\Q1\PAC\INFOM227_Small_Concurrency_Anlyzer"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\johan\AppData\Local\Temp\surefire102021517964136923\surefirebooter-20240109195220908_3.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="18.0.2.1+1-1"/>
+    <property name="user.name" value="johan"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="localRepository" value="C:\Users\johan\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="C:\Users\johan\AppData\Local\Temp\"/>
+    <property name="idea.version" value="2023.2.4"/>
+    <property name="java.version" value="18.0.2.1"/>
+    <property name="user.dir" value="C:\Users\johan\Documents\2eme master\Q1\PAC\INFOM227_Small_Concurrency_Anlyzer"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="native.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="C:\Program Files\jdk-18.0.2.1\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\jdk-18.0.2.1\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\WireGuard\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\dotnet\;C:\Users\johan\AppData\Local\Android\Sdk\platform-tools;C:\Program Files\nodejs\;C:\Users\johan\AppData\Local\Programs\Python\Python39;C:\HashiCorp\Vagrant\bin;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files (x86)\sbt\bin;C:\Program Files\javafx-sdk-21.0.1\lib;C:\Program Files (x86)\Graphviz2.38\bin;C:\Users\johan\anaconda3;C:\Users\johan\anaconda3\Scripts;C:\Users\johan\anaconda3\Library\bin;C:\Users\johan\AppData\Local\Microsoft\WindowsApps;C:\Users\johan\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\johan\AppData\Local\Programs\Python\Python39;C:\Users\johan\AppData\Local\Programs\Python\Python39\Scripts;C:\Users\johan\AppData\Local\Programs\Python\Python311;C:\Users\johan\AppData\Local\Programs\Python\Python311\Scripts;C:\Users\johan\AppData\Local\GitHubDesktop\bin;C:\Program Files\JetBrains\IntelliJ IDEA 2022.2.1\bin;;C:\Program Files\JetBrains\DataGrip 2022.2.2\bin;;C:\Users\johan\AppData\Local\Pandoc\;C:\Users\johan\AppData\Local\Programs\MiKTeX\miktex\bin\x64\;C:\Users\johan\.dotnet\tools;C:\Program Files\jdk-18.0.2.1\bin;C:\Program Files\apache-maven-3.9.0\bin;C:\Users\johan\Downloads\sonar-scanner-cli-4.8.0.2856-windows\sonar-scanner-4.8.0.2856-windows\bin;C:\Users\johan\AppData\Local\Android\Sdk\platform-tools;C:\Users\johan\AppData\Roaming\npm;C:\Program Files\Git\usr\bin;;C:\Users\johan\AppData\Local\Coursier\data\bin;C:\Program Files\Neovim\bin;C:\Program Files\JetBrains\IntelliJ IDEA 2023.2.3\bin;;."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.version" value="18.0.2.1+1-1"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="62.0"/>
+  </properties>
+  <testcase name="Complete" classname="com.SmallConcurrency.main.StaticAnalysisTest" time="0.5">
+    <system-out><![CDATA[Finished analyzing file: Complete.smallConcurrent
+The program is semantically correct!
+Starting cfg generation...
+Finished cfg generation!
+&amp#27;[33m2024-01-09 19:52:22.107 [main] WARN  com.SmallConcurrency.staticAnalysis.StaticAnalysisVisitor - Race condition detected on variable x at line 19:
+    Write may happen during read or write in another thread&amp#27;[m 
+&amp#27;[33m2024-01-09 19:52:22.109 [main] WARN  com.SmallConcurrency.main.Main - Race condition detected on variable x!&amp#27;[m 
+]]></system-out>
+  </testcase>
+  <testcase name="RC1" classname="com.SmallConcurrency.main.StaticAnalysisTest" time="0.005">
+    <system-out><![CDATA[Finished analyzing file: RC1.smallConcurrent
+The program is semantically correct!
+Starting cfg generation...
+Finished cfg generation!
+&amp#27;[33m2024-01-09 19:52:22.123 [main] WARN  com.SmallConcurrency.staticAnalysis.StaticAnalysisVisitor - Race condition detected on variable y at line 11:
+    Write may happen during read or write in another thread&amp#27;[m 
+&amp#27;[33m2024-01-09 19:52:22.123 [main] WARN  com.SmallConcurrency.main.Main - Race condition detected on variable y!&amp#27;[m 
+]]></system-out>
+  </testcase>
+  <testcase name="RC2" classname="com.SmallConcurrency.main.StaticAnalysisTest" time="0.004">
+    <system-out><![CDATA[Finished analyzing file: RC2.smallConcurrent
+The program is semantically correct!
+Starting cfg generation...
+Finished cfg generation!
+&amp#27;[33m2024-01-09 19:52:22.128 [main] WARN  com.SmallConcurrency.staticAnalysis.StaticAnalysisVisitor - Race condition detected on variable x at line 14:
+Read may happen during write in another thread&amp#27;[m 
+&amp#27;[33m2024-01-09 19:52:22.129 [main] WARN  com.SmallConcurrency.main.Main - Race condition detected on variable x!&amp#27;[m 
+]]></system-out>
+  </testcase>
+  <testcase name="RC3" classname="com.SmallConcurrency.main.StaticAnalysisTest" time="0.004">
+    <system-out><![CDATA[Finished analyzing file: RC3.smallConcurrent
+The program is semantically correct!
+Starting cfg generation...
+Finished cfg generation!
+&amp#27;[33m2024-01-09 19:52:22.134 [main] WARN  com.SmallConcurrency.staticAnalysis.StaticAnalysisVisitor - Race condition detected on variable y at line 14:
+    Write may happen during read or write in another thread&amp#27;[m 
+&amp#27;[33m2024-01-09 19:52:22.134 [main] WARN  com.SmallConcurrency.main.Main - Race condition detected on variable y!&amp#27;[m 
+]]></system-out>
+  </testcase>
+  <testcase name="RC4" classname="com.SmallConcurrency.main.StaticAnalysisTest" time="0.005">
+    <system-out><![CDATA[Finished analyzing file: RC4.smallConcurrent
+The program is semantically correct!
+Starting cfg generation...
+Finished cfg generation!
+&amp#27;[33m2024-01-09 19:52:22.139 [main] WARN  com.SmallConcurrency.staticAnalysis.StaticAnalysisVisitor - Race condition detected on variable x at line 14:
+Read may happen during write in another thread&amp#27;[m 
+&amp#27;[33m2024-01-09 19:52:22.139 [main] WARN  com.SmallConcurrency.staticAnalysis.StaticAnalysisVisitor - Race condition detected on variable y at line 14:
+    Write may happen during read or write in another thread&amp#27;[m 
+&amp#27;[33m2024-01-09 19:52:22.140 [main] WARN  com.SmallConcurrency.main.Main - Race condition detected on variable x!&amp#27;[m 
+&amp#27;[33m2024-01-09 19:52:22.140 [main] WARN  com.SmallConcurrency.main.Main - Race condition detected on variable y!&amp#27;[m 
+]]></system-out>
+  </testcase>
+  <testcase name="NoRC1" classname="com.SmallConcurrency.main.StaticAnalysisTest" time="0.004">
+    <system-out><![CDATA[Finished analyzing file: NoRC1.smallConcurrent
+The program is semantically correct!
+Starting cfg generation...
+Finished cfg generation!
+]]></system-out>
+  </testcase>
+  <testcase name="NoRC2" classname="com.SmallConcurrency.main.StaticAnalysisTest" time="0.004">
+    <system-out><![CDATA[Finished analyzing file: NoRC2.smallConcurrent
+The program is semantically correct!
+Starting cfg generation...
+Finished cfg generation!
+]]></system-out>
+  </testcase>
+  <testcase name="NoRC3" classname="com.SmallConcurrency.main.StaticAnalysisTest" time="0.005">
+    <system-out><![CDATA[Finished analyzing file: NoRC3.smallConcurrent
+The program is semantically correct!
+Starting cfg generation...
+Finished cfg generation!
+]]></system-out>
+  </testcase>
+</testsuite>
