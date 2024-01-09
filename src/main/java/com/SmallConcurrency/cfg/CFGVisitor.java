@@ -83,7 +83,7 @@ public class CFGVisitor extends SmallConcurrencyGrammarBaseVisitor<Object> {
         CFG = currentBlock;
         visitChildren(ctx);
         currentBlock.addChild(endBlock);
-        System.out.println(CFG);
+
 
         return CFG;
 
