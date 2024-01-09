@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
-import static com.SmallConcurrency.main.Utils.mergeGlobalValues;
+import static com.SmallConcurrency.main.Utils.*;
 
 public class StaticAnalysisVisitor {
 
@@ -45,16 +45,18 @@ public class StaticAnalysisVisitor {
 
         }
         VariableAccess variableAccess = globalVarValues.get(varName);
-        if (variableAccess.getConcurrentValue() == AbstractValues.WA ) {
-            variableAccess.setValue(AbstractValues.RC);
+
+
+
+        AbstractValues inter = mergeOperator(AbstractValues.RA, variableAccess.getConcurrentValue());
+
+        if (inter.equals(AbstractValues.RC)) {
             logger.warn("Race condition detected on variable " + varName + " at line " + line + ":\nRead may happen during write in another thread");
         }
-        else {
 
-            if (variableAccess.getValue() == AbstractValues.NA) {
-                variableAccess.setValue(AbstractValues.RA);
-            }
-        }
+        AbstractValues result= leastUpperBound(variableAccess.getValue(),inter );
+
+        variableAccess.setValue(result);
     }
 
     public void writeGlobalVarValues(String varName, int line) {
@@ -63,16 +65,20 @@ public class StaticAnalysisVisitor {
             return;
         }
 
+
         VariableAccess variableAccess = globalVarValues.get(varName);
 
-        if ( variableAccess.getConcurrentValue() == AbstractValues.RA || variableAccess.getConcurrentValue() == AbstractValues.WA) {
-            variableAccess.setValue(AbstractValues.RC);
+
+
+        AbstractValues inter = mergeOperator(AbstractValues.WA, variableAccess.getConcurrentValue());
+        if (inter.equals(AbstractValues.RC)) {
             logger.warn("Race condition detected on variable " + varName + " at line " + line + ":\n    Write may happen during read or write in another thread");
         }
-        else
-        {
-            variableAccess.setValue(AbstractValues.WA);
-        }
+
+        AbstractValues result= leastUpperBound(variableAccess.getValue(),inter );
+
+        variableAccess.setValue(result);
+
     }
 
     public void checkCondition(BoolExpr condition, int line) {
@@ -339,13 +345,15 @@ public class StaticAnalysisVisitor {
         */
         Map<String, VariableAccess> mergedGlobalVarValues = mergeGlobalValues(globalVarValues1, globalVarValues2);
 
-        /*
-        for (String varName : mergedGlobalVarValues.keySet()) {
+
+        /*for (String varName : mergedGlobalVarValues.keySet()) {
             System.out.println(varName + " " + mergedGlobalVarValues.get(varName));
         }
 
         System.out.println("-------------------------------------------------");
         */
+
+
 
         globalVarValues = mergedGlobalVarValues;
         globalVarValuesList.add(globalVarValues);

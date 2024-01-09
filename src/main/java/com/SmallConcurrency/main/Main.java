@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 
+import static com.SmallConcurrency.main.Utils.leastUpperBound;
 import static com.SmallConcurrency.main.Utils.mergeOperator;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -100,7 +101,7 @@ public class Main {
 
         for (String varName : globalVarValues.keySet()) {
 
-            AbstractValues value = mergeOperator(globalVarValues.get(varName).getValue(), globalVarValues.get(varName).getConcurrentValue());
+            AbstractValues value = leastUpperBound(globalVarValues.get(varName).getValue(), globalVarValues.get(varName).getConcurrentValue());
             if (value == AbstractValues.RC) {
                 raceConditions.add(varName);
                 logger.warn("Race condition detected on variable " + varName + "!");

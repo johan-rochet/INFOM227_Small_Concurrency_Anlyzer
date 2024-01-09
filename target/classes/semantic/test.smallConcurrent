@@ -1,21 +1,34 @@
 gVar x;
 gVar y;
+gVar z;
+gVar w;
 
-function main(){
-    lock x;
-    thread {
-        x = y;
-        }
-    if(x == y){
-
-        y = 1;
-        }
-    else
-    {
-        }
-
-    unlock x;
-
-
+function f() {
+    return y+w;
 }
 
+function main(){
+    x = 1 ;
+    y = 2 ;
+    z = 3 ;
+    w = 4 ;
+    thread {
+        while(x < 10){
+            x = x + z;
+        }
+
+        thread {
+            if (y == 2)
+            z = y+ 1;
+            else
+            z = y-1;
+        }
+
+        if (w == 3)
+        x = z + 1;
+        else
+        x = z-1;
+    }
+
+    x = f();
+}

@@ -53,16 +53,17 @@ public class Utils {
         Map <String, VariableAccess> mergedGlobalVarValues = new HashMap<>();
 
         for (String varName : globalVarValues2.keySet()) {
-            AbstractValues conccurrentValue = mergeOperator(globalVarValues2.get(varName).getValue(), globalVarValues2.get(varName).getConcurrentValue());
+            AbstractValues conccurrentValue = leastUpperBound(globalVarValues2.get(varName).getValue(), globalVarValues2.get(varName).getConcurrentValue());
 
-            mergedGlobalVarValues.put(varName, new VariableAccess(globalVarValues1.get(varName).getValue(), conccurrentValue));
+            mergedGlobalVarValues.put(varName, new VariableAccess(globalVarValues1.get(varName).getValue(), mergeOperator(globalVarValues1.get(varName).getConcurrentValue(), conccurrentValue)));
 
         }
 
         return mergedGlobalVarValues;
     }
 
-    public static AbstractValues mergeOperator(AbstractValues v1, AbstractValues v2){
+
+    public static AbstractValues leastUpperBound(AbstractValues v1, AbstractValues v2) {
 
         switch (v1) {
             case NA:
@@ -84,8 +85,32 @@ public class Utils {
         }
 
         return v1;
+    }
 
+    public static AbstractValues mergeOperator(AbstractValues v1, AbstractValues v2){
 
-
+        switch (v1) {
+            case NA:
+                return v2;
+            case WA:
+                switch (v2) {
+                    case RC:
+                    case WA:
+                    case RA:
+                        return AbstractValues.RC;
+                    case NA:
+                        return v1;
+                }
+            case RA:
+                switch (v2) {
+                    case NA:
+                    case RA:
+                        return v1;
+                    case WA:
+                    case RC:
+                        return AbstractValues.RC;
+                }
+        }
+        return v1;
     }
 }

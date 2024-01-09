@@ -9,11 +9,9 @@ function main(){
             x=2;
             }
         else{}
-
         }
+
         y= x;
-
     }
-
 }
 
