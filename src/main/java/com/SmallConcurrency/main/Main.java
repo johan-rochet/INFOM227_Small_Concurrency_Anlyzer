@@ -6,9 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.SmallConcurrency.cfg.CFGVisitor;
-import com.SmallConcurrency.cfg.graph.Block;
-import com.SmallConcurrency.cfg.graph.Function;
-import com.SmallConcurrency.cfg.graph.GlobalVarDecl;
 import com.SmallConcurrency.semantic.SemanticVisitor;
 import com.SmallConcurrency.SmallConcurrencyGrammarParser;
 import com.SmallConcurrency.SmallConcurrencyGrammarLexer;
@@ -16,18 +13,15 @@ import com.SmallConcurrency.staticAnalysis.AbstractValues;
 import com.SmallConcurrency.staticAnalysis.StaticAnalysisVisitor;
 import org.antlr.v4.runtime.*;
 
-import java.io.File;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
 import static com.SmallConcurrency.main.Utils.leastUpperBound;
-import static com.SmallConcurrency.main.Utils.mergeOperator;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
@@ -35,11 +29,24 @@ public class Main {
     private static final Logger logger = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) {
+        if (args.length != 1) {
+            logger.error("Error while launching file: wrong number of arguments");
+            System.exit(-1);
+        }
+        String inputPath = args[0];
+        String inputStr = "";
+        try {
+            inputStr = new String(java.nio.file.Files.readAllBytes(java.nio.file.Paths.get(inputPath)));
+        }
+        catch (IOException e) {
+            logger.error("Error while launching file" + inputPath + ": IOException");
+            System.exit(-1);
+        }
 
-        String input = "/semantic/test.smallConcurrent";
+        ByteArrayInputStream input = new ByteArrayInputStream(inputStr.getBytes());
 
         try {
-            analyse(Main.class.getResourceAsStream(input));
+            analyse(input);
         }
 
         catch (IOException e) {
