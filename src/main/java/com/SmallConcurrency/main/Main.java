@@ -91,6 +91,8 @@ public class Main {
 
         System.out.println("Finished cfg generation!");
 
+
+        long begin_time = System.currentTimeMillis();
         StaticAnalysisVisitor staticAnalysisVisitor = new StaticAnalysisVisitor();
         cfgVisitor.getCFG().accept(staticAnalysisVisitor);
 
@@ -106,6 +108,10 @@ public class Main {
                 logger.warn("Race condition detected on variable " + varName + "!");
             }
         }
+
+        long end_time = System.currentTimeMillis();
+
+        logger.info("Static analysis took " + (end_time - begin_time) + "ms");
 
         return raceConditions;
 
