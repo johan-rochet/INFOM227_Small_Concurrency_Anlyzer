@@ -18,6 +18,7 @@ import org.antlr.v4.runtime.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,21 +39,19 @@ public class Main {
         String input = "/semantic/test.smallConcurrent";
 
         try {
-            analyse(new File(Main.class.getResource(input).toURI()));
+            analyse(Main.class.getResourceAsStream(input));
         }
-        catch (URISyntaxException e) {
-            logger.error("Error while launching file" + input + ": URISyntaxException");
-        }
+
         catch (IOException e) {
             logger.error("Error while launching file" + input + ": IOException");
         }
     }
 
-    public static List<String> analyse(File inputFile) throws  IOException {
+    public static List<String> analyse(InputStream inputFile) throws  IOException {
 
 
 
-        CharStream tokens = CharStreams.fromPath(inputFile.toPath());
+        CharStream tokens = CharStreams.fromStream(inputFile);
 
         SmallConcurrencyGrammarLexer lexer = new SmallConcurrencyGrammarLexer(tokens);
 
@@ -81,7 +80,7 @@ public class Main {
 
         tree.accept(visitor);
 
-        System.out.println("Finished analyzing file: " + inputFile.getName());
+        System.out.println("Finished analyzing file! ");
 
         System.out.println("The program is semantically correct!");
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.SmallConcurrency.main.StaticAnalysisTest" time="0.562" tests="8" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.SmallConcurrency.main.StaticAnalysisTest" time="0.586" tests="8" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="18"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="BE"/>
     <property name="sun.boot.library.path" value="C:\Program Files\jdk-18.0.2.1\bin"/>
-    <property name="sun.java.command" value="C:\Users\johan\AppData\Local\Temp\surefire102021517964136923\surefirebooter-20240109195220908_3.jar C:\Users\johan\AppData\Local\Temp\surefire102021517964136923 2024-01-09T19-52-20_731-jvmRun1 surefire-20240109195220908_1tmp surefire_0-20240109195220908_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\johan\AppData\Local\Temp\surefire7655690969191582598\surefirebooter-20240110012820199_3.jar C:\Users\johan\AppData\Local\Temp\surefire7655690969191582598 2024-01-10T01-28-19_990-jvmRun1 surefire-20240110012820199_1tmp surefire_0-20240110012820199_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\johan\Documents\2eme master\Q1\PAC\INFOM227_Small_Concurrency_Anlyzer\target\test-classes;C:\Users\johan\Documents\2eme master\Q1\PAC\INFOM227_Small_Concurrency_Anlyzer\target\classes;C:\Users\johan\.m2\repository\org\antlr\antlr4-runtime\4.13.1\antlr4-runtime-4.13.1.jar;C:\Users\johan\.m2\repository\org\apache\logging\log4j\log4j-api\2.22.1\log4j-api-2.22.1.jar;C:\Users\johan\.m2\repository\org\apache\logging\log4j\log4j-core\2.22.1\log4j-core-2.22.1.jar;C:\Users\johan\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.9.2\junit-jupiter-engine-5.9.2.jar;C:\Users\johan\.m2\repository\org\junit\platform\junit-platform-engine\1.9.2\junit-platform-engine-1.9.2.jar;C:\Users\johan\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\johan\.m2\repository\org\junit\platform\junit-platform-commons\1.9.2\junit-platform-commons-1.9.2.jar;C:\Users\johan\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.9.2\junit-jupiter-api-5.9.2.jar;C:\Users\johan\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\johan\AppData\Local\Temp\surefire102021517964136923\surefirebooter-20240109195220908_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\johan\AppData\Local\Temp\surefire7655690969191582598\surefirebooter-20240110012820199_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="18.0.2.1+1-1"/>
@@ -57,75 +57,75 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="62.0"/>
   </properties>
-  <testcase name="Complete" classname="com.SmallConcurrency.main.StaticAnalysisTest" time="0.5">
-    <system-out><![CDATA[Finished analyzing file: Complete.smallConcurrent
+  <testcase name="Complete" classname="com.SmallConcurrency.main.StaticAnalysisTest" time="0.531">
+    <system-out><![CDATA[Finished analyzing file! 
 The program is semantically correct!
 Starting cfg generation...
 Finished cfg generation!
-&amp#27;[33m2024-01-09 19:52:22.107 [main] WARN  com.SmallConcurrency.staticAnalysis.StaticAnalysisVisitor - Race condition detected on variable x at line 19:
+&amp#27;[33m2024-01-10 01:28:21.395 [main] WARN  com.SmallConcurrency.staticAnalysis.StaticAnalysisVisitor - Race condition detected on variable x at line 19:
     Write may happen during read or write in another thread&amp#27;[m 
-&amp#27;[33m2024-01-09 19:52:22.109 [main] WARN  com.SmallConcurrency.main.Main - Race condition detected on variable x!&amp#27;[m 
+&amp#27;[33m2024-01-10 01:28:21.397 [main] WARN  com.SmallConcurrency.main.Main - Race condition detected on variable x!&amp#27;[m 
 ]]></system-out>
   </testcase>
   <testcase name="RC1" classname="com.SmallConcurrency.main.StaticAnalysisTest" time="0.005">
-    <system-out><![CDATA[Finished analyzing file: RC1.smallConcurrent
+    <system-out><![CDATA[Finished analyzing file! 
 The program is semantically correct!
 Starting cfg generation...
 Finished cfg generation!
-&amp#27;[33m2024-01-09 19:52:22.123 [main] WARN  com.SmallConcurrency.staticAnalysis.StaticAnalysisVisitor - Race condition detected on variable y at line 11:
+&amp#27;[33m2024-01-10 01:28:21.411 [main] WARN  com.SmallConcurrency.staticAnalysis.StaticAnalysisVisitor - Race condition detected on variable y at line 11:
     Write may happen during read or write in another thread&amp#27;[m 
-&amp#27;[33m2024-01-09 19:52:22.123 [main] WARN  com.SmallConcurrency.main.Main - Race condition detected on variable y!&amp#27;[m 
+&amp#27;[33m2024-01-10 01:28:21.411 [main] WARN  com.SmallConcurrency.main.Main - Race condition detected on variable y!&amp#27;[m 
 ]]></system-out>
   </testcase>
-  <testcase name="RC2" classname="com.SmallConcurrency.main.StaticAnalysisTest" time="0.004">
-    <system-out><![CDATA[Finished analyzing file: RC2.smallConcurrent
+  <testcase name="RC2" classname="com.SmallConcurrency.main.StaticAnalysisTest" time="0.005">
+    <system-out><![CDATA[Finished analyzing file! 
 The program is semantically correct!
 Starting cfg generation...
 Finished cfg generation!
-&amp#27;[33m2024-01-09 19:52:22.128 [main] WARN  com.SmallConcurrency.staticAnalysis.StaticAnalysisVisitor - Race condition detected on variable x at line 14:
+&amp#27;[33m2024-01-10 01:28:21.416 [main] WARN  com.SmallConcurrency.staticAnalysis.StaticAnalysisVisitor - Race condition detected on variable x at line 14:
 Read may happen during write in another thread&amp#27;[m 
-&amp#27;[33m2024-01-09 19:52:22.129 [main] WARN  com.SmallConcurrency.main.Main - Race condition detected on variable x!&amp#27;[m 
+&amp#27;[33m2024-01-10 01:28:21.416 [main] WARN  com.SmallConcurrency.main.Main - Race condition detected on variable x!&amp#27;[m 
 ]]></system-out>
   </testcase>
   <testcase name="RC3" classname="com.SmallConcurrency.main.StaticAnalysisTest" time="0.004">
-    <system-out><![CDATA[Finished analyzing file: RC3.smallConcurrent
+    <system-out><![CDATA[Finished analyzing file! 
 The program is semantically correct!
 Starting cfg generation...
 Finished cfg generation!
-&amp#27;[33m2024-01-09 19:52:22.134 [main] WARN  com.SmallConcurrency.staticAnalysis.StaticAnalysisVisitor - Race condition detected on variable y at line 14:
+&amp#27;[33m2024-01-10 01:28:21.421 [main] WARN  com.SmallConcurrency.staticAnalysis.StaticAnalysisVisitor - Race condition detected on variable y at line 14:
     Write may happen during read or write in another thread&amp#27;[m 
-&amp#27;[33m2024-01-09 19:52:22.134 [main] WARN  com.SmallConcurrency.main.Main - Race condition detected on variable y!&amp#27;[m 
+&amp#27;[33m2024-01-10 01:28:21.421 [main] WARN  com.SmallConcurrency.main.Main - Race condition detected on variable y!&amp#27;[m 
 ]]></system-out>
   </testcase>
-  <testcase name="RC4" classname="com.SmallConcurrency.main.StaticAnalysisTest" time="0.005">
-    <system-out><![CDATA[Finished analyzing file: RC4.smallConcurrent
+  <testcase name="RC4" classname="com.SmallConcurrency.main.StaticAnalysisTest" time="0.004">
+    <system-out><![CDATA[Finished analyzing file! 
 The program is semantically correct!
 Starting cfg generation...
 Finished cfg generation!
-&amp#27;[33m2024-01-09 19:52:22.139 [main] WARN  com.SmallConcurrency.staticAnalysis.StaticAnalysisVisitor - Race condition detected on variable x at line 14:
+&amp#27;[33m2024-01-10 01:28:21.426 [main] WARN  com.SmallConcurrency.staticAnalysis.StaticAnalysisVisitor - Race condition detected on variable x at line 14:
 Read may happen during write in another thread&amp#27;[m 
-&amp#27;[33m2024-01-09 19:52:22.139 [main] WARN  com.SmallConcurrency.staticAnalysis.StaticAnalysisVisitor - Race condition detected on variable y at line 14:
+&amp#27;[33m2024-01-10 01:28:21.426 [main] WARN  com.SmallConcurrency.staticAnalysis.StaticAnalysisVisitor - Race condition detected on variable y at line 14:
     Write may happen during read or write in another thread&amp#27;[m 
-&amp#27;[33m2024-01-09 19:52:22.140 [main] WARN  com.SmallConcurrency.main.Main - Race condition detected on variable x!&amp#27;[m 
-&amp#27;[33m2024-01-09 19:52:22.140 [main] WARN  com.SmallConcurrency.main.Main - Race condition detected on variable y!&amp#27;[m 
+&amp#27;[33m2024-01-10 01:28:21.426 [main] WARN  com.SmallConcurrency.main.Main - Race condition detected on variable x!&amp#27;[m 
+&amp#27;[33m2024-01-10 01:28:21.426 [main] WARN  com.SmallConcurrency.main.Main - Race condition detected on variable y!&amp#27;[m 
 ]]></system-out>
   </testcase>
-  <testcase name="NoRC1" classname="com.SmallConcurrency.main.StaticAnalysisTest" time="0.004">
-    <system-out><![CDATA[Finished analyzing file: NoRC1.smallConcurrent
+  <testcase name="NoRC1" classname="com.SmallConcurrency.main.StaticAnalysisTest" time="0.003">
+    <system-out><![CDATA[Finished analyzing file! 
 The program is semantically correct!
 Starting cfg generation...
 Finished cfg generation!
 ]]></system-out>
   </testcase>
   <testcase name="NoRC2" classname="com.SmallConcurrency.main.StaticAnalysisTest" time="0.004">
-    <system-out><![CDATA[Finished analyzing file: NoRC2.smallConcurrent
+    <system-out><![CDATA[Finished analyzing file! 
 The program is semantically correct!
 Starting cfg generation...
 Finished cfg generation!
 ]]></system-out>
   </testcase>
-  <testcase name="NoRC3" classname="com.SmallConcurrency.main.StaticAnalysisTest" time="0.005">
-    <system-out><![CDATA[Finished analyzing file: NoRC3.smallConcurrent
+  <testcase name="NoRC3" classname="com.SmallConcurrency.main.StaticAnalysisTest" time="0.004">
+    <system-out><![CDATA[Finished analyzing file! 
 The program is semantically correct!
 Starting cfg generation...
 Finished cfg generation!

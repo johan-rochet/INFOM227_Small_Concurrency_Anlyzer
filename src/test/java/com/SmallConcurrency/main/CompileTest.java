@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.List;
 
@@ -14,11 +15,9 @@ public class CompileTest {
     private static final Logger logger = LogManager.getLogger(CompileTest.class);
     public static List<String> launchAnalysis(String input) {
         try {
-            return Main.analyse(new File(CompileTest.class.getResource(input).toURI()));
+            return Main.analyse(CompileTest.class.getResourceAsStream(input)) ;
         }
-        catch (URISyntaxException e) {
-            logger.error("Error while launching file" + input + ": URISyntaxException");
-        }
+
         catch(IOException e) {
             logger.error("Error while launching file" + input + ": IOException");
         }
